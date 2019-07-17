@@ -1,0 +1,36 @@
+body{
+    
+
+}
+div#container{
+    margin-top: 50px;
+    
+    border-radius: 20px;
+    height: 800px;
+    display: flex;
+    justify-content: space-around;;
+}
+div#corpo{
+    background-color:#F5F5F5;
+    display: flex;
+    justify-content: center;
+    height: 50px;
+
+}
+
+
+img{
+    height: 150px;
+    width:150px;
+    align-items: center;
+}
+h6{
+    color: #838B8B;
+    text-align: center;
+    font-family: 'Allerta', sans-serif;
+}
+h3{
+    color: #838B8B;
+    margin: 10px;
+    font-family: 'Allerta', sans-serif;
+}
