@@ -2,14 +2,7 @@ body{
     
 
 }
-div#container{
-    margin-top: 50px;
-    
-    border-radius: 20px;
-    height: 800px;
-    display: flex;
-    justify-content: space-around;;
-}
+
 div#corpo{
     background-color:#F5F5F5;
     display: flex;
@@ -18,13 +11,12 @@ div#corpo{
 
 }
 
-
 img{
     height: 150px;
     width:150px;
     align-items: center;
 }
-h6{
+h5{
     color: #838B8B;
     text-align: center;
     font-family: 'Allerta', sans-serif;
@@ -33,4 +25,20 @@ h3{
     color: #838B8B;
     margin: 10px;
     font-family: 'Allerta', sans-serif;
+}
+
+div#item1{
+    width: 50%;
+    height: 300px;
+    margin-top: 55px;
+    align-content: center;
+}
+
+div#item2{
+    width: 90%;
+    height: 450px;
+    margin-top: 10px;
+    margin-bottom: 25px;
+
+
 }
