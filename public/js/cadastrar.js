@@ -1,17 +1,30 @@
 $(function(){
-    $("#form").submit(function(){
-        $.ajax({
-            url:"http://localhost/historico_atendimento/app/Controller/Controller.php",
-            type: "POST",
-            data: $("#form").serialize(),
-            success: function(response){
-                alert("Histórico Registrado!");
-              
-            },
-            error: function(error){
-                alert('Erro ao Cadastrar');
+    $("#formario").submit(function(){
+            var vazios = $("input[type=text]").filter(function() {
+                return !this.value;
+            }).get();
+
+            if (vazios.length) {
+                $(vazios).addClass('vazio');
+                alert("Todos os campos devem ser preenchidos.");
+                return false;
+            } else {
+                $.ajax({
+                    url:"http://10.150.150.201/Historico_Atendimento/app/Controller/Controller.php",
+                    type: "POST",
+                    data: $("#form").serialize(),
+                    success: function(response){
+                      alert('legal')
+                      
+                    },
+                    error: function(){
+                       
+                        alert('erro')
+                    }
+                });
             }
-        });
+
+        
         return false;
     });
     

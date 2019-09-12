@@ -9,8 +9,9 @@ if(isset($_POST) && !empty($_POST)){
     $tipo_atendimento = $_POST['tipoAtendimento'];
     $tipo_solicitacao = $_POST['tipoSolicitacao'];
     $descricao = $_POST['descricao'];
+    $registro = $_POST['registro'];
     
-    $dao->cadastrar($tipo_cliente,$tipo_atendimento,$tipo_solicitacao,$descricao);
+    $dao->cadastrar($descricao, $tipo_cliente, $registro, $tipo_solicitacao, $tipo_atendimento);
 
 }else{
     
