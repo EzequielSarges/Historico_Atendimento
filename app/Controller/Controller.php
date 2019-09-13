@@ -1,5 +1,6 @@
 <?php
 include "../Model/Model.php";
+include "../Model/CadastrarAtendimento.php";
 
 $dao = new HistoricoDAO();
 
@@ -11,10 +12,14 @@ if(isset($_POST) && !empty($_POST)){
     $descricao = $_POST['descricao'];
     $registro = $_POST['registro'];
     
-    $dao->cadastrar($descricao, $tipo_cliente, $registro, $tipo_solicitacao, $tipo_atendimento);
+    $cadAtendimento = new CadastrarAtendimento($descricao, $tipo_cliente, $registro, $tipo_solicitacao, $tipo_atendimento);
+
+    $dao->cadastrar($cadAtendimento);
+
+    echo "Atendimento Cadastrado!.";
 
 }else{
     
-    echo "erro ao cadastrar";
+    echo "Erro ao cadastrar. Verifique se todos os campos estão preenchidos!.";
 
 };

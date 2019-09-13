@@ -14,7 +14,7 @@ $(function(){
                     type: "POST",
                     data: $("#form").serialize(),
                     success: function(response){
-                      alert('legal')
+                      alert(response)
                       
                     },
                     error: function(){
