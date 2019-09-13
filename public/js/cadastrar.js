@@ -12,7 +12,7 @@ $(function(){
                 $.ajax({
                     url:"http://10.150.150.201/Historico_Atendimento/app/Controller/Controller.php",
                     type: "POST",
-                    data: $("#form").serialize(),
+                    data: $("#formario").serialize(),
                     success: function(response){
                       alert(response)
                       
