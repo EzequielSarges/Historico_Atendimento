@@ -1,6 +1,6 @@
 <?php
-include "../Model/Model.php";
-include "../Model/CadastrarAtendimento.php";
+include_once "../Model/Model.php";
+//include "../Model/CadastrarAtendimento.php";
 
 $dao = new HistoricoDAO();
 
@@ -12,9 +12,9 @@ if(isset($_POST) && !empty($_POST)){
     $descricao = $_POST['descricao'];
     $registro = $_POST['registro'];
     
-    $cadAtendimento = new CadastrarAtendimento($descricao, $tipo_cliente, $registro, $tipo_solicitacao, $tipo_atendimento);
+    //$cadAtendimento = new CadastrarAtendimento($descricao, $tipo_cliente, $registro, $tipo_solicitacao, $tipo_atendimento);
 
-    $dao->cadastrar($cadAtendimento);
+    $dao->cadastrar($descricao, $tipo_cliente, $registro, $tipo_solicitacao, $tipo_atendimento);
 
     echo "Atendimento Cadastrado!.";
 

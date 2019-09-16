@@ -9,7 +9,9 @@
     <link rel="stylesheet" href="css/jquery.mCustomScrollbar.css">
     <link href="https://fonts.googleapis.com/css?family=Allerta&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
-
+<?php
+$nome = $_GET['nome'];
+?>
 
     <title>HISTÓRICO DE ATENDIMENTO</title>
 </head>
@@ -31,7 +33,7 @@
             <div id="foto"><img src="imagens/usu.jpg"></div>
         </div>
     </div>
-    <h5>NOME CLIENTE</h5>
+    <h5><?php echo $nome?></h5>
 </div>
    
     <div id="item1" class="card">
@@ -52,42 +54,45 @@
                                             <label >Tipo Cliente</label>
                                                 <select name="tipoCliente" class="form-control"  id="tipoCliente">
                                                     <option value="selecionar">Selecione...</option>			
-                                                    <option name="1">Profissional</option>
-                                                    <option name="2">Empresa</option>
-                                                    <option name="3">Não Registrado</option>
+                                                    <option value="1">Profissional</option>
+                                                    <option value="2">Empresa</option>
+                                                    <option value="3">Não Registrado</option>
                                                 </select>
                                         </div>
                                         <div class="col-md-4 mb-3">
                                             <label >Tipo de Solicitação </label>
                                                             <select name="tipoSolicitacao" class="form-control"  id="tipoSolicitacao">
                                                                 <option value="selecionar">Selecione...</option>			
-                                                                <option name="1">Emissão de Boleto</option>
-                                                                <option name="2">Parcelamento/Acordos</option>
-                                                                <option name="3">Intenções</option>
-                                                                <option name="4">Informações de débito</option>
-                                                                <option name="5">Outros</option>
+                                                                <option value="1">Emissão de Boleto</option>
+                                                                <option value="2">Parcelamento/Acordos</option>
+                                                                <option value="3">Intenções</option>
+                                                                <option value="4">Informações de débito</option>
+                                                                <option value="5">Outros</option>
                                                             </select>
                                         </div>
                                         <div class="col-md-4 mb-3">
                                             <label >Tipo de Atendimento</label>
                                                             <select name="tipoAtendimento" class="form-control"  id="tipoAtendimento">
                                                                 <option value="selecionar">Selecione...</option>			
-                                                                <option name="1">Telefônico</option>
-                                                                <option name="2">Presencial</option>
-                                                                <option name="3">E-mail</option>
+                                                                <option value="1">Telefônico</option>
+                                                                <option value="2">Presencial</option>
+                                                                <option value="3">E-mail</option>
                                                             </select>
                                         </div>
                                         <div class="col-md-4 mb-3">
                                             <label >Descrição:</label>
                                             <textarea name="descricao" id="descricao" cols="73" rows="3"></textarea>
                                         </div>
+
+                                        <div class="col-md-6 mb-3">
+                                            <button type="submit" name="btnCadastrar" id="btCadastrar" class="btn btn-success" >Cadastrar</button>
+                                        </div>
+                                        
                                     </div>
 
-                                    <div class="form-group row">
-                                            <div class="col-sm-10">
-                                                <button type="submit" name="btnCadastrar" id="btCadastrar" class="btn btn-success" >Cadastrar</button>
-                                            </div>
-                                    </div>
+    
+                                            
+                                    
                             </form>  
                         </div>
                         
@@ -118,161 +123,7 @@
                             </thead>
                             <tbody id="corpo-tabela">
                                     <!--Será oreenchido dinamicamente com JQUERY-->
-                                <tr>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                </tr>
-                                <tr>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                </tr>
-                                <tr>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                </tr>
-                                <tr>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                </tr>
-                                <tr>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                </tr>
-                                <tr>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                </tr>
-                                <tr>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                </tr>
-                                <tr>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                </tr>
-                                <tr>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                </tr>
-                                <tr>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                </tr>
-                                <tr>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                </tr>
-                                <tr>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                </tr>
-                                <tr>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                </tr>
-                                <tr>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                </tr>
-                                <tr>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                </tr>
-                                <tr>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                </tr>
-                                <tr>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                    <td>02/02/2011</td>
-                                </tr>
-
-
+                              
                             </tbody>
                         </table>
                     </div>
@@ -280,7 +131,7 @@
         </div>  
 
  <!--Modal ALERTA-->
-<div class='modal fade' id='#btnModal' tabindex='-1' role='dialog' aria-labelledby='btnModal' aria-hidden='true'>
+<div class='modal fade' id='#teste' tabindex='-1' role='dialog' aria-labelledby='btnModal' aria-hidden='true'>
   <div class='modal-dialog' role='document'>
     <div class='modal-content'>
       <div class='modal-header bg-danger'>
@@ -332,8 +183,15 @@
         "oAria": {
             "sSortAscending": ": Ordenar colunas de forma ascendente",
             "sSortDescending": ": Ordenar colunas de forma descendente"
-        }
-    },			
+        },
+        
+    },	
+    "processing": true,
+	"serverSide": true,
+	"ajax": {
+				"url": "http://10.150.150.201/Historico_Atendimento/app/Controller/listarController.php",
+				"type": "POST"
+				}		
 			
 			});
 		} );

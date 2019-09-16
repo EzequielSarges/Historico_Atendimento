@@ -15,6 +15,7 @@ $(function(){
                     data: $("#formario").serialize(),
                     success: function(response){
                       alert(response)
+                      $('#teste').modal('show');
                       
                     },
                     error: function(){
