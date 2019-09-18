@@ -1,5 +1,7 @@
 $(function(){
     $("#formario").submit(function(){
+        var registro = $("#registro").val()
+        alert(registro)
             var vazios = $("input[type=text]").filter(function() {
                 return !this.value;
             }).get();

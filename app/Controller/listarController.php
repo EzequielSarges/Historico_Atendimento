@@ -9,7 +9,8 @@ $conn = mysqli_connect($servername, $username, $password, $dbname);
 //Receber a requisão da pesquisa 
 $requestData= $_REQUEST;
 //
-
+//
+$registro = $_POST['registro'];
 //Indice da coluna na tabela visualizar resultado => nome da coluna no banco de dados
 $columns = array( 
 	0 =>'descricao_do_atendimento', 
@@ -26,7 +27,13 @@ $resultado_user =mysqli_query($conn, $result_user);
 $qnt_linhas = mysqli_num_rows($resultado_user);
 
 //Obter os dados a serem apresentados
-$result_usuarios = "SELECT data_atendimento, descricao_do_atendimento, id_tipo_cliente,registro_cliente,id_tipo_solicitacao, id_tipo_atendimento FROM historico_atendimento_cliente";
+$result_usuarios = "SELECT h.data_atendimento, h.descricao_do_atendimento, h.registro_cliente, c.cliente, a.atendimento,
+s.solicitacao FROM historico_atendimento_cliente h INNER JOIN tipo_cliente c ON h.id_tipo_cliente = c.id_tipo_cliente 
+INNER JOIN tipo_atendimento a ON h.id_tipo_atendimento = a.id_tipo_atendimento INNER JOIN tipo_solicitacao s ON 
+h.id_tipo_solicitacao = s.id_tipo_solicitacao WHERE registro_cliente = '$registro' ";
+
+
+
 if( !empty($requestData['search']['value']) ) {   // se houver um parâmetro de pesquisa, $requestData['search']['value'] contém o parâmetro de pesquisa
 	$result_usuarios.=" AND ( data_atendimento LIKE '".$requestData['search']['value']."%' ";    
 	$result_usuarios.=" OR descricao_do_atendimento LIKE '".$requestData['search']['value']."%' ";
@@ -42,14 +49,16 @@ $resultado_usuarios=mysqli_query($conn, $result_usuarios);
 // Ler e criar o array de dados
 $dados = array();
 while( $row_usuarios =mysqli_fetch_array($resultado_usuarios) ) {  
+	$data = $row_usuarios['data_atendimento'];
+	$data2 = date('d/m/Y H:i:s', strtotime($data));
 	$dado = array(); 
-	$dado[] = $row_usuarios["data_atendimento"];
-	$dado[] = $row_usuarios["id_tipo_solicitacao"];
-	$dado[] = $row_usuarios["id_tipo_atendimento"];	
-	$dado[] = $row_usuarios["id_tipo_cliente"];
+	$dado[] = $data2;
+	$dado[] = $row_usuarios["solicitacao"];
+	$dado[] = $row_usuarios["atendimento"];	
+	$dado[] = $row_usuarios["cliente"];
 	$dado[] = $row_usuarios["registro_cliente"];
 	$dado[] = $row_usuarios["descricao_do_atendimento"];
-	$dado[] = "<button class='btn btn-success' id='botao-editar'>Editar</button><button class='btn btn-outline-danger' data-toggle='modal' data-target='#btnexcluir' id='excluir'>Excluir</button>";
+	$dado[] = "<button class='btn btn-success btn-sm' id='botao-editar'>Detalhes</button><button class='btn btn-danger btn-sm' id='botao-excluir'>Excluir</button>";
 	$dados[] = $dado;
 }
 

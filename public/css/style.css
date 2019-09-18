@@ -1,5 +1,5 @@
 body{
-    background-color: darkgrey;
+    background-color: #BDBDBD;
     
 
 }
@@ -21,10 +21,21 @@ h5{
     color: #838B8B;
     text-align: center;
     font-family: 'Allerta', sans-serif;
+    padding: 5px;
+    margin: 5px;
 }
-h3{
+h6{
+    text-align: center;
+    color: #6E6E6E;
+}
+h4{
     color: #838B8B;
     margin: 10px;
+    font-family: 'Allerta', sans-serif;
+    
+}
+h4#corpoTexto{
+    color: #838B8B;
     font-family: 'Allerta', sans-serif;
 }
 div#item0{
@@ -46,10 +57,24 @@ div#caixa1{
     justify-content: center;
 
 }
-.card-header{
-    background-color: aquamarine;
+div#detalhes{
+    margin-left: 5px;
+    margin-top: 5px;
+    display: flex;
+    justify-content: space-between;
 
 }
+div#titulo{
+    width: 60%;
+    height: 80px;
+    margin-top: 15px;
+   
+}
+.card-header{
+    background-color: #CED8F6;
+
+}
+
 
 div#item2{
     width: 98%;

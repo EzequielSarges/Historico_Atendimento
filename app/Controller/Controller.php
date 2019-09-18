@@ -4,13 +4,15 @@ include_once "../Model/Model.php";
 
 $dao = new HistoricoDAO();
 
-if(isset($_POST) && !empty($_POST)){
+$json = (isset($_POST['dados'])) ? $_POST['dados'] : $_GET['dados'];
 
-    $tipo_cliente = $_POST['tipoCliente'];
-    $tipo_atendimento = $_POST['tipoAtendimento'];
-    $tipo_solicitacao = $_POST['tipoSolicitacao'];
-    $descricao = $_POST['descricao'];
-    $registro = $_POST['registro'];
+if($json['tipo'] == 'inserir'){
+
+    $tipo_cliente = $json['cliente'];
+    $tipo_atendimento = $json['atendimento'];
+    $tipo_solicitacao = $json['solicitacao'];
+    $descricao = $json['descricao'];
+    $registro = $json['registro'];
     
     //$cadAtendimento = new CadastrarAtendimento($descricao, $tipo_cliente, $registro, $tipo_solicitacao, $tipo_atendimento);
 

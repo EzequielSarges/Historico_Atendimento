@@ -9,8 +9,11 @@
     <link rel="stylesheet" href="css/jquery.mCustomScrollbar.css">
     <link href="https://fonts.googleapis.com/css?family=Allerta&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    
+    
 <?php
 $nome = $_GET['nome'];
+$registro = $_GET['registro'];
 ?>
 
     <title>HISTÓRICO DE ATENDIMENTO</title>
@@ -18,7 +21,7 @@ $nome = $_GET['nome'];
 <body>
     <div id="corpo" class="fixed-top">
         <div id="titulo">
-            <h3>HISTÓRICO DE ATENDIMENTO</h3>
+            <h5>HISTÓRICO DE ATENDIMENTO</h5>
         </div>
     </div>
 
@@ -47,8 +50,8 @@ $nome = $_GET['nome'];
                             <form id="formario">
                                     <div class="form-row">
                                         <div class="col-md-4 mb-3">
-                                            <label > Nº Registro</label>
-                                            <input type="text" name ='registro' class="form-control" id="registro" >
+                                            <label >CPF/CNPJ</label>
+                                            <input type="text" name ='registro' class="form-control" id="registro" disabled="disabled" value="<?php echo $registro?>">
                                         </div>
                                         <div class="col-md-4 mb-3">
                                             <label >Tipo Cliente</label>
@@ -114,7 +117,7 @@ $nome = $_GET['nome'];
                                     <th>Tipo de Solicitação</th>
                                     <th>Tipo de Atendimento</th>
                                     <th>Tipo de Cliente</th>
-                                    <th>Nº Registro</th>
+                                    <th>CPF/CNPJ</th>
                                     <th>Descrição</th>
                                     <th>Ação</th>
                                 
@@ -131,33 +134,99 @@ $nome = $_GET['nome'];
         </div>  
 
  <!--Modal ALERTA-->
-<div class='modal fade' id='#teste' tabindex='-1' role='dialog' aria-labelledby='btnModal' aria-hidden='true'>
-  <div class='modal-dialog' role='document'>
-    <div class='modal-content'>
-      <div class='modal-header bg-danger'>
-        <h5 class='modal-title' id='#btnModal'>Excluir Participante!</h5>
-        <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
-          <span aria-hidden='true'>&times;</span>
-        </button>
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header bg-success">
+          <h4 style="color: #ffffff; font-family: 'Allerta', sans-serif; text-align: center; " id='corpoTexto' class="modal-title">HISTÓRICO ATENDIMENTO</h4>
+          
+        </div>
+        <div class='modal-body'>
+        <button type="button" class="btn btn-secondary" id="btnOk" data-dismiss="modal">OK</button>
+        </div>
+              
       </div>
-      <div class='modal-body'>
-        
-      </div>
-      <div class='modal-footer'>
-        <button type='button' class='btn btn-danger' id='botao-excluir'>Excluir</button>
-        <button type='button' class='btn btn-success' data-dismiss='modal'>Cancelar</button>
-      </div>
+    </div>
+  </div>
+
+
+  <!--Modal DETALHES-->
+  <div id="modalDetalhes" class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+        <div class="modal-header bg-secondary">
+            <h6 style = "color:#ffffff">Detalhes do atendimento</h6> 
+            <button type="button" id="close" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>           
+        </div>
+        <div class='modal-body'>
+
+        <div id="detalhes">
+            <div id = "titulo">
+                <h6>CPF/CNPF do Cliente : </h6>
+                <h6># </h6>
+            </div>
+            <div id = "titulo">
+                <h6> Tipo de Cliente : </h6>
+                <h6># </h6>
+            </div>
+            <div id = "titulo">
+                <h6> Solicitação : </h6>
+                <h6># </h6>
+            </div>
+            <div id = "titulo">
+                <h6> Atendimento via: </h6>
+                <h6># </h6>
+            </div>
+        </div>
+           <h5 id ="descricao">Descrição do Atendimento:</h5>
+           <p>
+           Formato dos Códigos HTML:
+Cada código HTML contém o símbolo "#" e 6 letras ou números. Estes números estão no sistema numérico hexadecimal. Por exemplo, "FF" em hexadecimal representa o número 255 em Decimal.
+
+Significado dos símbolos:
+Os primeiros dois símbolos no código de cor HTML representam a intensidade da cor encarnada. 00 é o mínimo e FF o mais intenso. O terceiro e o quarto reprenstam a intensidade de verde e o quinto e o sexto representam a intensidade de azul. Portanto, combinando as intensidades de encarnado, verde e azul podemos misturar qualquer cor que o nosso coração deseje:)
+           </p>
+           <p>             
+        </div>
+
     </div>
   </div>
 </div>
 
+
+<!--Modal Excluir dados da tabela-->
+<div class="modal" id="btnExcluir">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header bg-danger">
+          <h5 style="color: #ffffff; font-family: 'Allerta', sans-serif; text-align: center; " id='corpoTexto' class="modal-title">Excluír Atendimento</h5>
+          
+        </div>
+        <div class='modal-body'>
+        <h5>Tem certeza que deseja excluir?</h5>
+        </div>
+        <div class='modal-footer'>
+        <button type='button' class='btn btn-danger' id='excluir'>Excluir</button>
+        <button type='button' class='btn btn-success' data-dismiss='modal'>Cancelar</button>
+      </div>
+      </div>
+    </div>
+  </div>
+
+
 <script src="js/jquery-3.4.1.min.js"></script>
 <script src="js/scroll.js"></script>
-<script src="js/cadastrar.js"></script>
+<!--<script src="js/cadastrar.js"></script>-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>    
 <script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
 <script>
 		$(document).ready(function() {
@@ -187,15 +256,78 @@ $nome = $_GET['nome'];
         
     },	
     "processing": true,
-	"serverSide": true,
+    "serverSide": true,
 	"ajax": {
 				"url": "http://10.150.150.201/Historico_Atendimento/app/Controller/listarController.php",
-				"type": "POST"
-				}		
-			
-			});
+				"type": "POST",
+                "data": {
+                    "registro": "<?php echo $registro?>"
+                }
+                }
+            });
+           
 		} );
 </script>
+
+<script>
+$(function(){
+    $("#formario").submit(function(){
+        var tCliente = $("#tipoCliente").val()
+        var tSolicitacao = $("#tipoSolicitacao").val()
+        var tAtendimento = $("#tipoAtendimento").val()
+        var descricao = $("#descricao").val()
+
+        var comboNome = document.getElementById("tipoSolicitacao");
+           
+        if (comboNome.options[comboNome.selectedIndex].value == "" ){
+                alert("Selecione um nome antes de prosseguir");
+        
+            } else {
+                $.ajax({
+                    url:"http://10.150.150.201/Historico_Atendimento/app/Controller/Controller.php",
+                    type: "POST",
+                    data: {'dados':{
+                        tipo: 'inserir',
+                        registro: '<?php echo $registro?>',
+                        cliente: tCliente,
+                        solicitacao: tSolicitacao,
+                        atendimento: tAtendimento,
+                        descricao: descricao
+                    }},
+                    success: function(response){
+                      //alert(response)
+                      $('#myModal').modal('show');
+                      $("#corpoTexto").text('Atendimento Cadastrado!')
+                      
+                    },
+                    error: function(error){
+                      $('#myModal').modal('show');
+                      $("#corpoTexto").text('Erro!. Verifique se os campos estão preenchidos!')
+                    }
+                });
+            }
+
+        
+        return false;
+    });
+    
+});
+</script>
+
+<script>
+$(document).on('click', '#btnOk', function(){
+    location.reload();
+});
+
+$(document).on('click', '#botao-editar', function(){
+    $("#modalDetalhes").modal('show');
+});
+
+$(document).on('click', '#botao-excluir', function(){
+    $("#btnExcluir").modal('show');
+});
+</script>
+
 
 </body>
 </html>
