@@ -27,3 +27,24 @@ if($json['tipo'] == 'inserir'){
     
 
 };
+
+if($json['tipo'] == 'listar'){
+
+    $registro = $json['registro'];
+    
+    $objeto = $dao->listar($registro);
+
+    $jsonResposta = [
+        'data' => $objeto['data_atendimento'],
+        'solicitacao' => $objeto['solicitacao'],
+        'atendimento' => $objeto['atendimento'],
+        'cliente' => $objeto['cliente'],
+        'registro' => $objeto['registro_cliente'],
+        'descricao' => $objeto['descricao_do_atendimento']
+    ];
+    
+    echo json_encode(utf8_converter($registro));
+
+}else{
+    echo json_encode(utf8_converter("erro"));
+};

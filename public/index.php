@@ -47,7 +47,7 @@ $registro = $_GET['registro'];
                 <div class="card-body">    
                         
                         <div id = 'form'>
-                            <form id="formario">
+                            <form id="formario" class="was-validated ">
                                     <div class="form-row">
                                         <div class="col-md-4 mb-3">
                                             <label >CPF/CNPJ</label>
@@ -55,8 +55,8 @@ $registro = $_GET['registro'];
                                         </div>
                                         <div class="col-md-4 mb-3">
                                             <label >Tipo Cliente</label>
-                                                <select name="tipoCliente" class="form-control"  id="tipoCliente">
-                                                    <option value="selecionar">Selecione...</option>			
+                                                <select name="tipoCliente" class="custom-select" required  id="tipoCliente">
+                                                    <option value="">Selecione...</option>			
                                                     <option value="1">Profissional</option>
                                                     <option value="2">Empresa</option>
                                                     <option value="3">Não Registrado</option>
@@ -64,8 +64,8 @@ $registro = $_GET['registro'];
                                         </div>
                                         <div class="col-md-4 mb-3">
                                             <label >Tipo de Solicitação </label>
-                                                            <select name="tipoSolicitacao" class="form-control"  id="tipoSolicitacao">
-                                                                <option value="selecionar">Selecione...</option>			
+                                                            <select name="tipoSolicitacao" class="custom-select" required  id="tipoSolicitacao">
+                                                                <option value="">Selecione...</option>			
                                                                 <option value="1">Emissão de Boleto</option>
                                                                 <option value="2">Parcelamento/Acordos</option>
                                                                 <option value="3">Intenções</option>
@@ -75,8 +75,8 @@ $registro = $_GET['registro'];
                                         </div>
                                         <div class="col-md-4 mb-3">
                                             <label >Tipo de Atendimento</label>
-                                                            <select name="tipoAtendimento" class="form-control"  id="tipoAtendimento">
-                                                                <option value="selecionar">Selecione...</option>			
+                                                            <select name="tipoAtendimento" class="custom-select" required  id="tipoAtendimento" >
+                                                                <option value="">Selecione...</option>			
                                                                 <option value="1">Telefônico</option>
                                                                 <option value="2">Presencial</option>
                                                                 <option value="3">E-mail</option>
@@ -84,7 +84,7 @@ $registro = $_GET['registro'];
                                         </div>
                                         <div class="col-md-4 mb-3">
                                             <label >Descrição:</label>
-                                            <textarea name="descricao" id="descricao" cols="73" rows="3"></textarea>
+                                            <textarea name="descricao" id="descricao" cols="73" rows="3" class="form-control is-invalid" required></textarea>
                                         </div>
 
                                         <div class="col-md-6 mb-3">
@@ -110,7 +110,7 @@ $registro = $_GET['registro'];
                 </div>
                 <div class="card-body">
                     <div id='tabelaDiv' style="width:100%; height: 250px;">
-                        <table id="tabela" class="table table-outline-darger table-hover " style="width:100%">
+                        <table id="tabela" class="table table-bordered table-hover " cellspacing="0" style="width:100%">
                         <thead class="thead-dark">
                                 <tr id="cabecalho-tabela">
                                     <th>Data do Atendimento</th>
@@ -166,19 +166,19 @@ $registro = $_GET['registro'];
         <div id="detalhes">
             <div id = "titulo">
                 <h6>CPF/CNPF do Cliente : </h6>
-                <h6># </h6>
+                <h6 id="registroCliente"># </h6>
             </div>
             <div id = "titulo">
                 <h6> Tipo de Cliente : </h6>
-                <h6># </h6>
+                <h6 id="tituloCliente"># </h6>
             </div>
             <div id = "titulo">
                 <h6> Solicitação : </h6>
-                <h6># </h6>
+                <h6 id="solicitacaoCliente"># </h6>
             </div>
             <div id = "titulo">
                 <h6> Atendimento via: </h6>
-                <h6># </h6>
+                <h6 id="atendimentoCliente"># </h6>
             </div>
         </div>
            <h5 id ="descricao">Descrição do Atendimento:</h5>
@@ -228,7 +228,8 @@ Os primeiros dois símbolos no código de cor HTML representam a intensidade da 
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
-<script>
+<!--<script>
+
 		$(document).ready(function() {
 			$('#tabela').DataTable({
         "language": {
@@ -253,7 +254,7 @@ Os primeiros dois símbolos no código de cor HTML representam a intensidade da 
             "sSortAscending": ": Ordenar colunas de forma ascendente",
             "sSortDescending": ": Ordenar colunas de forma descendente"
         },
-        
+
     },	
     "processing": true,
     "serverSide": true,
@@ -261,14 +262,18 @@ Os primeiros dois símbolos no código de cor HTML representam a intensidade da 
 				"url": "http://10.150.150.201/Historico_Atendimento/app/Controller/listarController.php",
 				"type": "POST",
                 "data": {
-                    "registro": "<?php echo $registro?>"
+                    "registro": ""
                 }
                 }
             });
+
+
            
 		} );
-</script>
+</script>-->
 
+
+<!--cadastrar-->
 <script>
 $(function(){
     $("#formario").submit(function(){
@@ -277,11 +282,10 @@ $(function(){
         var tAtendimento = $("#tipoAtendimento").val()
         var descricao = $("#descricao").val()
 
-        var comboNome = document.getElementById("tipoSolicitacao");
+
            
-        if (comboNome.options[comboNome.selectedIndex].value == "" ){
-                alert("Selecione um nome antes de prosseguir");
-        
+        if (tCliente == "" || tSolicitacao == "" || tAtendimento == "" || descricao == "" ){
+                alert("Preencha todos os campos!");
             } else {
                 $.ajax({
                     url:"http://10.150.150.201/Historico_Atendimento/app/Controller/Controller.php",
@@ -321,13 +325,62 @@ $(document).on('click', '#btnOk', function(){
 
 $(document).on('click', '#botao-editar', function(){
     $("#modalDetalhes").modal('show');
+
 });
 
 $(document).on('click', '#botao-excluir', function(){
     $("#btnExcluir").modal('show');
 });
+
+
 </script>
 
+<script>
+$("#tabela tbody td").live('click', function(){
+    var nTr = $(this).parents('tr')[0];
+    var aData = oT
+    
+    
+});
+
+</script>
+
+<!--listar-->
+<script>
+$(document).ready(function() {
+    
+$.ajax({
+    type: 'POST',
+    url: 'http://10.150.150.201/Historico_Atendimento/app/Controller/Controller.php',
+    data: {'dados':{
+        tipo: 'listar',
+        registro: '<?php echo $registro?>',
+    }},
+    dataType: 'json',
+    success: function(response) {
+        alert('legal')
+        var tabela = $('#corpo-tabela');
+               
+                 var linha = "<tr class='processo'>"+
+                                "<td style='display:none' class='id' >"+ response.registro + "</td>"+
+                                "<td id='tdNome'>"+ response.solicitacao + "</td>"+
+                                "<td data-numero = 'Lorem Ipsum' id='tdNumero'>"+ response.atendimento + "</td>"+
+                                "<td id='tdEf'>"+ response.cliente + "</td>"+
+                                "<td id='tdData'>"+ response.registro + "</td>"+
+                                "<td id='tdValor'>"+ response.descricao + "</td>"+
+                                "<td>"+
+                                "<button class='btn btn-success' id='botao-editar'>Editar</button>"+
+                            "</td>"+
+                            "</tr>";
+                    tabela.append(linha);
+            },
+            error: function(erro){
+            alert("erroeroo");
+         }
+});
+
+});  
+</script>
 
 </body>
 </html>

@@ -35,16 +35,15 @@ h.id_tipo_solicitacao = s.id_tipo_solicitacao WHERE registro_cliente = '$registr
 
 
 if( !empty($requestData['search']['value']) ) {   // se houver um parâmetro de pesquisa, $requestData['search']['value'] contém o parâmetro de pesquisa
-	$result_usuarios.=" AND ( data_atendimento LIKE '".$requestData['search']['value']."%' ";    
-	$result_usuarios.=" OR descricao_do_atendimento LIKE '".$requestData['search']['value']."%' ";
-	$result_usuarios.=" OR id_tipo_cliente LIKE '".$requestData['search']['value']."%' )";
+	$result_usuarios.=" AND ( h.data_atendimento LIKE '".$requestData['search']['value']."%' ";    
+	$result_usuarios.=" OR h.descricao_do_atendimento LIKE '".$requestData['search']['value']."%' ";
+	$result_usuarios.=" OR h.id_tipo_cliente LIKE '".$requestData['search']['value']."%' )";
 }
 
 $resultado_usuarios=mysqli_query($conn, $result_usuarios);
 $totalFiltered = mysqli_num_rows($resultado_usuarios);
-//Ordenar o resultado
-$result_usuarios.=" ORDER BY ". $columns[$requestData['order'][0]['column']]."   ".$requestData['order'][0]['dir']."  LIMIT ".$requestData['start']." ,".$requestData['length']."   ";
-$resultado_usuarios=mysqli_query($conn, $result_usuarios);
+
+
 
 // Ler e criar o array de dados
 $dados = array();
@@ -52,13 +51,13 @@ while( $row_usuarios =mysqli_fetch_array($resultado_usuarios) ) {
 	$data = $row_usuarios['data_atendimento'];
 	$data2 = date('d/m/Y H:i:s', strtotime($data));
 	$dado = array(); 
-	$dado[] = $data2;
-	$dado[] = $row_usuarios["solicitacao"];
-	$dado[] = $row_usuarios["atendimento"];	
-	$dado[] = $row_usuarios["cliente"];
-	$dado[] = $row_usuarios["registro_cliente"];
-	$dado[] = $row_usuarios["descricao_do_atendimento"];
-	$dado[] = "<button class='btn btn-success btn-sm' id='botao-editar'>Detalhes</button><button class='btn btn-danger btn-sm' id='botao-excluir'>Excluir</button>";
+	$dado[] = "<tr><td id='data'>".$data2."</td>";
+	$dado[] = "<td>".$row_usuarios["solicitacao"]."</td>";
+	$dado[] = "<td>".$row_usuarios["atendimento"]."</td>";	
+	$dado[] = "<td>".$row_usuarios["cliente"]."</td>";
+	$dado[] = "<td>".$row_usuarios["registro_cliente"]."</td>";
+	$dado[] = "<td>".$row_usuarios["descricao_do_atendimento"]."</td>";
+	$dado[] = "<td>"."<button class='btn btn-success btn-sm' id='botao-editar'>Detalhes</button><button class='btn btn-primary btn-sm' id='bntEditar'>Editar</button><button class='btn btn-danger btn-sm' id='botao-excluir'>Excluir</button>"."</td></tr>";
 	$dados[] = $dado;
 }
 
