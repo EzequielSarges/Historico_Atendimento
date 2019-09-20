@@ -138,7 +138,7 @@ $registro = $_GET['registro'];
     <div class="modal-dialog">
       <div class="modal-content">
         <!-- Modal Header -->
-        <div class="modal-header bg-success">
+        <div style="background-color: #008000" id="myModalHeader" class="modal-header ">
           <h4 style="color: #ffffff; font-family: 'Allerta', sans-serif; text-align: center; " id='corpoTexto' class="modal-title">HISTÓRICO ATENDIMENTO</h4>
           
         </div>
@@ -306,7 +306,9 @@ $(function(){
                     },
                     error: function(error){
                       $('#myModal').modal('show');
+                      $('#myModalHeader').css('background','#FF0000');
                       $("#corpoTexto").text('Erro!. Verifique se os campos estão preenchidos!')
+
                     }
                 });
             }
@@ -335,15 +337,7 @@ $(document).on('click', '#botao-excluir', function(){
 
 </script>
 
-<script>
-$("#tabela tbody td").live('click', function(){
-    var nTr = $(this).parents('tr')[0];
-    var aData = oT
-    
-    
-});
 
-</script>
 
 <!--listar-->
 <script>
@@ -354,28 +348,29 @@ $.ajax({
     url: 'http://10.150.150.201/Historico_Atendimento/app/Controller/Controller.php',
     data: {'dados':{
         tipo: 'listar',
-        registro: '<?php echo $registro?>',
+        registro: '<?php echo $registro?>'
     }},
     dataType: 'json',
     success: function(response) {
-        alert('legal')
+        //alert(response.registro)
         var tabela = $('#corpo-tabela');
                
-                 var linha = "<tr class='processo'>"+
-                                "<td style='display:none' class='id' >"+ response.registro + "</td>"+
-                                "<td id='tdNome'>"+ response.solicitacao + "</td>"+
-                                "<td data-numero = 'Lorem Ipsum' id='tdNumero'>"+ response.atendimento + "</td>"+
-                                "<td id='tdEf'>"+ response.cliente + "</td>"+
-                                "<td id='tdData'>"+ response.registro + "</td>"+
-                                "<td id='tdValor'>"+ response.descricao + "</td>"+
+                 var linha = "<tr class='historico'>"+
+                                "<td id='tdData' >"+ response.data + "</td>"+
+                                "<td id='tdSolicitacao'>"+ response.solicitacao + "</td>"+
+                                "<td id='tdAtendimento'>"+ response.atendimento + "</td>"+
+                                "<td id='tdCliente'>"+ response.cliente + "</td>"+
+                                "<td id='tdRegistro'>"+ response.registro + "</td>"+
+                                "<td id='tdDescricao'>"+ response.descricao + "</td>"+
                                 "<td>"+
-                                "<button class='btn btn-success' id='botao-editar'>Editar</button>"+
+                                "<button class='btn btn-success' id='botao-editar'>Detalhes</button>"+
+                                "<button class='btn btn-danger' id='botao-excluir'>Excluir</button>"+
                             "</td>"+
                             "</tr>";
                     tabela.append(linha);
             },
             error: function(erro){
-            alert("erroeroo");
+            alert("erro");
          }
 });
 
