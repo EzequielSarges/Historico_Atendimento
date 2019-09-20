@@ -225,6 +225,7 @@ Os primeiros dois símbolos no código de cor HTML representam a intensidade da 
 <script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="js/editar.js"></script>
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
@@ -354,8 +355,8 @@ $.ajax({
     success: function(response) {
         //alert(response.registro)
         var tabela = $('#corpo-tabela');
-               
-                 var linha = "<tr class='historico'>"+
+           
+                var linha = "<tr class='historico'>"+
                                 "<td id='tdData' >"+ response.data + "</td>"+
                                 "<td id='tdSolicitacao'>"+ response.solicitacao + "</td>"+
                                 "<td id='tdAtendimento'>"+ response.atendimento + "</td>"+
@@ -367,7 +368,9 @@ $.ajax({
                                 "<button class='btn btn-danger btn-sm' id='botao-excluir'>Excluir</button>"+
                             "</td>"+
                             "</tr>";
-                    tabela.append(linha);
+
+                     tabela.html(linha); 
+ 
             },
             error: function(erro){
             alert("erro");
@@ -375,6 +378,17 @@ $.ajax({
 });
 
 });  
+</script>
+
+<script>
+$(document).on('click', '#botao-editar', function(){
+   
+    var registro = $('#tdData').html();
+
+    var data = $('#tdSolicitacao').html();
+    
+    $("#registroCliente").html(registro);
+}); 
 </script>
 
 </body>
