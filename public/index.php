@@ -182,7 +182,7 @@ $registro = $_GET['registro'];
             </div>
         </div>
            <h5 id ="descricao">Descrição do Atendimento:</h5>
-           <p>
+           <p id='descricaoCliente'>
            Formato dos Códigos HTML:
 Cada código HTML contém o símbolo "#" e 6 letras ou números. Estes números estão no sistema numérico hexadecimal. Por exemplo, "FF" em hexadecimal representa o número 255 em Decimal.
 
@@ -383,11 +383,19 @@ $.ajax({
 <script>
 $(document).on('click', '#botao-editar', function(){
    
-    var registro = $('#tdData').html();
+   
 
-    var data = $('#tdSolicitacao').html();
-    
+    var registro = $('#tdRegistro').html();
+    var tipo = $('#tdCliente').html();
+    var solicitacao = $('#tdSolicitacao').html();
+    var atendimento = $('#tdAtendimento').html();
+    var descricao = $('#tdDescricao').html();
+
     $("#registroCliente").html(registro);
+    $("#tituloCliente").html(tipo);
+    $("#solicitacaoCliente").html(solicitacao);
+    $("#atendimentoCliente").html(atendimento);
+    $("#descricaoCliente").html(descricao);
 }); 
 </script>
 
