@@ -28,15 +28,16 @@ if($json['tipo'] == 'inserir'){
 
     $objeto = $dao->listar($registro);
 
-    $jsonResposta = [
-        'data' => $objeto['data_atendimento'],
-        'solicitacao' => $objeto['solicitacao'],
-        'atendimento' => $objeto['atendimento'],
-        'cliente' => $objeto['cliente'],
-        'registro' => $objeto['registro_cliente'],
-        'descricao' => $objeto['descricao_do_atendimento']
-    ];
+        $jsonResposta = [
+            'data' => $objeto['data_atendimento'],
+            'solicitacao' => $objeto['solicitacao'],
+            'atendimento' => $objeto['atendimento'],
+            'cliente' => $objeto['cliente'],
+            'registro' => $objeto['registro_cliente'],
+            'descricao' => $objeto['descricao_do_atendimento']
+        ];
     
     echo json_encode($jsonResposta);
+    
 
 }

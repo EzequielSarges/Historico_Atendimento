@@ -363,8 +363,8 @@ $.ajax({
                                 "<td id='tdRegistro'>"+ response.registro + "</td>"+
                                 "<td id='tdDescricao'>"+ response.descricao + "</td>"+
                                 "<td>"+
-                                "<button class='btn btn-success' id='botao-editar'>Detalhes</button>"+
-                                "<button class='btn btn-danger' id='botao-excluir'>Excluir</button>"+
+                                "<button class='btn btn-success btn-sm' id='botao-editar'>Detalhes</button>"+
+                                "<button class='btn btn-danger btn-sm' id='botao-excluir'>Excluir</button>"+
                             "</td>"+
                             "</tr>";
                     tabela.append(linha);
