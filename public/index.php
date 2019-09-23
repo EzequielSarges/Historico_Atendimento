@@ -14,7 +14,7 @@
 <?php
 $nome = $_GET['nome'];
 $registro = $_GET['registro'];
-$profissional = $_GET['profissional'];
+$profissional = $_GET['tipoCliente'];
 ?>
 
     <title>HISTÓRICO DE ATENDIMENTO</title>
@@ -30,15 +30,15 @@ $profissional = $_GET['profissional'];
 <div id = "caixa1">
 
 <div id="item0" class="card">
-    <div class="card-header">
-    <h5>FOTO</h5>
+    <div style = "width: 100%" class="card-header">
+    <h5><?php echo $profissional?></h5>
     </div>
     <div class="card-body"> 
         <div id="cabecalho" class="form-group col-md-6" >
             <div id="foto"><img src="imagens/usu.jpg"></div>
         </div>
     </div>
-    <h5><?php echo $nome?></h5>
+    <h5 style="margin-bottom: 35px;"><?php echo $nome?></h5>
 </div>
    
     <div id="item1" class="card">
@@ -160,7 +160,7 @@ $profissional = $_GET['profissional'];
 
   <!--Modal DETALHES-->
   <div id="modalDetalhes" class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
     <div class="modal-content">
         <div class="modal-header bg-secondary">
             <h6 style = "color:#ffffff">Detalhes do atendimento</h6> 
@@ -187,8 +187,12 @@ $profissional = $_GET['profissional'];
                 <h6> Atendimento via: </h6>
                 <h6 id="atendimentoCliente"># </h6>
             </div>
+            <div id = "titulo">
+                <h6> Data do Atendimento:</h6>
+                <h6 id="dataAtendimento"># </h6>
+            </div>
         </div>
-           <h5 id ="descricao">Descrição do Atendimento:</h5>
+           <h6 id ="descricao">Descrição do Atendimento:</h6>
            <p id='descricaoCliente'>
            Formato dos Códigos HTML:
 Cada código HTML contém o símbolo "#" e 6 letras ou números. Estes números estão no sistema numérico hexadecimal. Por exemplo, "FF" em hexadecimal representa o número 255 em Decimal.
@@ -216,54 +220,56 @@ Os primeiros dois símbolos no código de cor HTML representam a intensidade da 
         </div>
 
         <div class='modal-body'>
-            <form id="formarioAtualizar" class="was-validated ">
-                                    <div class="form-row">
-                      <div class="col-md-4 mb-3">
-                          <label >CPF/CNPJ</label>
-                          <input type="text" name ='registro' class="form-control" id="registro_Cliente" disabled="disabled" value="<?php echo $registro?>">
-                      </div>
-                      <div class="col-md-4 mb-3">
-                          <label >Tipo Cliente</label>
-                              <select name="tipoCliente" class="custom-select" required  id="tipo_Cliente" disabled="disabled">
-                                  <option value="">Selecione...</option>			
-                                  <option value="1">Profissional</option>
-                                  <option value="2">Empresa</option>
-                                  <option value="3">Não Registrado</option>
-                              </select>
-                      </div>
-                      <div class="col-md-4 mb-3">
-                          <label >Tipo de Solicitação </label>
-                                          <select name="tipoSolicitacao" class="custom-select" required  id="tipo_Solicitacao">
-                                              <option value="">Selecione...</option>			
-                                              <option value="1">Emissão de Boleto</option>
-                                              <option value="2">Parcelamento/Acordos</option>
-                                              <option value="3">Intenções</option>
-                                              <option value="4">Informações de débito</option>
-                                              <option value="5">Outros</option>
-                                          </select>
-                      </div>
-                      <div class="col-md-4 mb-3">
-                          <label >Tipo de Atendimento</label>
-                                          <select name="tipoAtendimento" class="custom-select" required  id="tipo_Atendimento" >
-                                              <option value="">Selecione...</option>			
-                                              <option value="1">Telefônico</option>
-                                              <option value="2">Presencial</option>
-                                              <option value="3">E-mail</option>
-                                          </select>
-                      </div>
-                      <div class="col-md-4 mb-3">
-                          <label >Descrição:</label>
-                          <textarea name="descricao" id="descricao_Atendimento" cols="73" rows="3" class="form-control is-invalid" required></textarea>
-                      </div>
+            <form id="formulario" class="was-validated ">
+                 <div class="form-row">
+                    <div class="col-md-4 mb-3" style="display:none">
+                         <input type="text" name ='id' class="form-control" id="id" disabled="disabled" >
+                     </div>
+                     <div class="col-md-4 mb-3">
+                         <label >CPF/CNPJ</label>
+                         <input type="text" name ='registro' class="form-control" id="registro_Cliente" disabled="disabled" value="<?php echo $registro?>">
+                     </div>
+                     <div class="col-md-4 mb-3">
+                         <label >Tipo Cliente</label>
+                             <select name="tipoCliente" class="custom-select" required  id="tipo_Cliente" disabled="disabled">
+                                 <option value="">Selecione...</option>			
+                                 <option value="1">Profissional</option>
+                                 <option value="2">Empresa</option>
+                                 <option value="3">Não Registrado</option>
+                             </select>
+                     </div>
+                     <div class="col-md-4 mb-3">
+                         <label >Tipo de Solicitação </label>
+                                         <select name="tipoSolicitacao" class="custom-select" required  id="tipo_Solicitacao">
+                                             <option value="">Selecione...</option>			
+                                             <option value="1">Emissão de Boleto</option>
+                                             <option value="2">Parcelamento/Acordos</option>
+                                             <option value="3">Intenções</option>
+                                             <option value="4">Informações de débito</option>
+                                             <option value="5">Outros</option>
+                                         </select>
+                     </div>
+                     <div class="col-md-4 mb-3">
+                         <label >Tipo de Atendimento</label>
+                                         <select name="tipoAtendimento" class="custom-select" required  id="tipo_Atendimento" >
+                                             <option value="">Selecione...</option>			
+                                             <option value="1">Telefônico</option>
+                                             <option value="2">Presencial</option>
+                                             <option value="3">E-mail</option>
+                                         </select>
+                     </div>
+                     <div class="col-md-4 mb-3">
+                         <label >Descrição:</label>
+                         <textarea name="descricao" id="descricao_Atendimento" cols="73" rows="3" class="form-control is-invalid" required></textarea>
+                     </div>
 
-                      <div class="col-md-6 mb-3">
-                          <button type="submit" name="Atualizar" id="Atualizar" class="btn btn-primary" >Atualizar</button>
-                      </div>
-                      
-                  </div>
+                     <div class="col-md-6 mb-3">
+                         <button type="submit" name="btnCadastrar" id="btCadastrar" class="btn btn-success" >Atualizar</button>
+                     </div>
 
-            </form>  
-
+                 </div>
+                
+             </form>  
         </div>
       
     </div>
@@ -280,10 +286,10 @@ Os primeiros dois símbolos no código de cor HTML representam a intensidade da 
           
         </div>
         <div class='modal-body'>
-        <h5>Tem certeza que deseja excluir?</h5>
+        <h5>Tem certeza que deseja excluír?</h5>
         </div>
         <div class='modal-footer'>
-        <button type='submit' class='btn btn-danger' id='excluir'>Excluir</button>
+        <button type='submit' class='btn btn-danger' id='excluir'>Excluír</button>
         <button type='button' class='btn btn-success' id="excluirCancelar"data-dismiss='modal'>Cancelar</button>
       </div>
       </div>
@@ -356,13 +362,11 @@ $(function(){
         var tAtendimento = $("#tipoAtendimento").val()
         var descricao = $("#descricao").val()
 
-
-           
         if (tCliente == "" || tSolicitacao == "" || tAtendimento == "" || descricao == "" ){
                 alert("Preencha todos os campos!");
             } else {
                 $.ajax({
-                    url:"http://localhost/Historico_Atendimento/app/Controller/Controller.php",
+                    url:"http://10.150.150.201/Historico_Atendimento/app/Controller/Controller.php",
                     type: "POST",
                     data: {'dados':{
                         tipo: 'inserir',
@@ -395,6 +399,77 @@ $(function(){
 </script>
 
 <script>
+//Editar Atendimento -----------------------------------------------------------
+$(document).on('click', '#botao-editar', function(){
+    $("#modalEditar").modal('show');
+
+    $("#registro_Cliente").val($(this).parent().parent().find(".registro").text());
+    $("#descricao_Atendimento").val($(this).parent().parent().find(".descricao").text());
+    $("#id").val( $(this).parent().parent().find(".id").text());
+
+    var tipoCliente = "<?php echo $profissional?>",
+        localizado = null;
+    // loop que percorre cada uma das opções
+    // e verifica se a frase da opção confere com o
+    // valor de fase que está sendo procurado
+    $('#tipo_Cliente option').each(function() {
+      // se localizar a frase, define o atributo selected
+      if($(this).text() == tipoCliente) {
+        $(this).attr('selected', true);
+      }
+    });
+    $("#formulario").submit(function(){
+        var tCliente = $("#tipo_Cliente").val()
+        var tSolicitacao = $("#tipo_Solicitacao").val()
+        var tAtendimento = $("#tipo_Atendimento").val()
+        var descricao = $("#descricao_Atendimento").val()
+        var registro = $("#registro_Cliente").val()
+        var id = $("#id").val()
+        
+        
+        //var resultado = tCliente +'\n'+ tSolicitacao + '\n'+ tAtendimento + '\n'+descricao+ '\n'+registro+ '\n'+id;
+        //alert(resultado)
+
+        if (tCliente == "" || tSolicitacao == "" || tAtendimento == "" || descricao == "" ){
+                alert("Preencha todos os campos!");
+            } else {
+                $.ajax({
+                    url:"http://10.150.150.201/Historico_Atendimento/app/Controller/Controller.php",
+                    type: "POST",
+                    data: {'dados':{
+                        tipo: 'editar',
+                        registro: registro,
+                        id: id,
+                        cliente: tCliente,
+                        solicitacao: tSolicitacao,
+                        atendimento: tAtendimento,
+                        descricao: descricao
+                    }},
+                    success: function(response){
+                      //alert(response)
+                      $('#modalEditar').modal('hide');
+                      $('#myModal').modal('show');
+                      $("#corpoTexto").text(response)
+                      
+                    },
+                    error: function(error){
+                      $('#myModal').modal('show');
+                      $('#myModalHeader').css('background','#FF0000');
+                      $("#corpoTexto").text('Erro!. Verifique se os campos estão preenchidos!')
+
+                    }
+                });
+            }
+
+        
+        return false;
+    });
+       
+});
+   
+</script>
+
+<script>
 $(document).on('click', '#btnOk', function(){
     location.reload();
 });
@@ -418,7 +493,6 @@ $(document).on('click', '#excluirCancelar', function(){
 </script>
 
 
-
 <!--listar-->
 <script>
 $(document).ready(function(){
@@ -426,7 +500,7 @@ $(document).ready(function(){
     $.ajax({
 		type:'post',		//Definimos o método HTTP usado
 		dataType: 'json', //Definimos o tipo de retorno
-		url: 'http://localhost/Historico_Atendimento/app/Controller/listarController.php?registro='+'<?php echo $registro?>',//Definindo o arquivo onde serão buscados os dados
+		url: 'http://10.150.150.201/Historico_Atendimento/app/Controller/listarController.php?registro='+'<?php echo $registro?>',//Definindo o arquivo onde serão buscados os dados
 		success: function(response){
 			for(var i=0;response.length>i;i++){
 				//Adicionando registros retornados na tabela
@@ -435,7 +509,7 @@ $(document).ready(function(){
             '</td><td class="solicitacao" >'+response[i].solicitacao+'</td><td class="atendimento">'+response[i].atendimento+
             '</td><td class="cliente">'+response[i].cliente+'</td><td class="registro">'+response[i].registro_cliente+
             '</td><td class="descricao"  style="display:none">'+response[i].descricao_do_atendimento+'</td><td>'+
-            '<button class="btn btn-primary btn-sm" id="botao-detalhes">Detalhes</button><button class="btn btn-warning btn-sm" id="botao-editar">Editar</button><button class="btn btn-danger btn-sm" id="botao-excluir">Excluir</button>'+
+            '<button class="btn btn-primary btn-sm" id="botao-detalhes">Detalhes</button><button class="btn btn-warning btn-sm" id="botao-editar">Editar</button><button class="btn btn-danger btn-sm" id="botao-excluir">Excluír</button>'+
             '</td></tr>');
             }
 		},
@@ -443,6 +517,7 @@ $(document).ready(function(){
             $(".alert").css('display','block')
         }
 	});
+
 });
 </script>
 
@@ -475,12 +550,14 @@ $(document).on("click", "#botao-detalhes", function(){
         var solicitacao = $(this).parent().parent().find(".solicitacao").text();
         var descricao = $(this).parent().parent().find(".descricao").text();
         var atendimento = $(this).parent().parent().find(".atendimento").text();
+        var data = $(this).parent().parent().find(".tdAtendimento").text();
         
         $('#registroCliente').html(registro);
         $('#descricaoCliente').html(descricao);
         $('#tituloCliente').html(cliente);
         $('#solicitacaoCliente').html(solicitacao);
         $('#atendimentoCliente').html(atendimento);
+        $('#dataAtendimento').html(data);
 
     
         });
@@ -495,7 +572,7 @@ $(document).on("click", "#botao-excluir", function(){
     //alert(idAtendimento);
     $('#excluir').on('click',function(){
         $.ajax({
-            url:"http://localhost/Historico_Atendimento/app/Controller/Controller.php",
+            url:"http://10.150.150.201/Historico_Atendimento/app/Controller/Controller.php",
             type: "POST",
             data: {'dados':{
             tipo: 'deletar',
@@ -516,63 +593,7 @@ $(document).on("click", "#botao-excluir", function(){
 });
 </script>
 
-<script>
-//Editar Atendimento -----------------------------------------------------------
-$(document).on('click', '#botao-editar', function(){
-    $("#modalEditar").modal('show');
-    $("#registro_Cliente").val($(this).parent().parent().find(".registro").text());
-    $("#descricao_Atendimento").val($(this).parent().parent().find(".descricao").text());
-    // frase que desejo localizar
-      var tipoProfissional = "<?php echo $profissional?>",
-        localizado = null;
 
-    // loop que percorre cada uma das opções
-    // e verifica se a frase da opção confere com o
-    // valor de fase que está sendo procurado
-    $('#tipo_Cliente option').each(function() {
-      // se localizar a frase, define o atributo selected
-      if($(this).text() == tipoProfissional) {
-        $(this).attr('selected', true);
-      }
-    });
-
-    
-
-$('#Atualizar').on('click', function(){
-    var registroCliente = '<?php echo $registro?>';
-    var tipo_Cliente = $('$tipo_Cliente').val();
-    var id = $(this).parent().parent().find(".id").text();
-    var tSolicitacao = $("#tipo_Solicitacao").val()
-    var tAtendimento = $("#tipo_Atendimento").val()
-    var descricao = $("#descricao_Atendimento").val()
-    $.ajax({
-            url:"http://localhost/Historico_Atendimento/app/Controller/Controller.php",
-            type: "POST",
-            data: {'dados':{
-            tipo: 'editar',
-            id: id,
-            registroCliente: registroCliente,
-            tipoCliente: tipo_Cliente,
-            solicitacao: tSolicitacao,
-            atendimento: tAtendimento,
-            descricao: descricao}},
-            success: function(response){
-                //$('#btnExcluir').modal('hide'); 
-                $('#myModal').modal('show');
-                $("#corpoTexto").text('Atendimento Atualizado!');
-			
-		    },
-            error: function(erro){
-                alert('erro');
-            }
-
-	    });
-
-});
-    
-
-});
-</script>
 
 </body>
 </html>

@@ -1,7 +1,7 @@
 <?php
-$servido = "localhost";
-$usuario = "root";
-$senha = "";
+$servido = "10.150.150.30";
+$usuario = "sdivida_ativa";
+$senha = "divida2019";
 $bdname = "historico_atendimento";
  
 $conexao = mysqli_connect($servido, $usuario, $senha, $bdname);

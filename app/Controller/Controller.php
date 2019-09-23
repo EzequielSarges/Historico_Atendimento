@@ -32,10 +32,12 @@ if($json['tipo'] == 'inserir'){
 
 }elseif($json['tipo'] == 'editar'){
     $id = $json['id'];
-    $registro = $json['registroCliente'];
-    $cliente = $json['tipoCliente'];
+    $registro = $json['registro'];
+    $cliente = $json['cliente'];
     $solicitacao = $json['solicitacao'];
     $atendimento = $json['atendimento'];
     $descricao = $json['descricao'];
-    $dao->editar($id,$registro,$cliente,$solicitacao,$atendimento,$descricao);
+    $resposta = $dao->editar($id,$registro,$cliente,$solicitacao,$atendimento,$descricao);
+
+    echo json_encode('Atualizado com sucesso!.');
 }
