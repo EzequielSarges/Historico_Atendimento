@@ -1,7 +1,6 @@
 <?php
 include "../Model/Model.php";
 
-
 $dao = new HistoricoDAO();
 
 $json = (isset($_POST['dados'])) ? $_POST['dados'] : $_GET['dados'];
@@ -22,22 +21,21 @@ if($json['tipo'] == 'inserir'){
 
     echo "Atendimento Cadastrado!.";
 
-}elseif($json['tipo'] == 'listar'){
+}elseif($json['tipo'] == 'deletar'){
 
-    $registro = $json['registro'];
+    $id = $json['id'];
 
-    $objeto = $dao->listar($registro);
+    $resposta = $dao->excluir($id);
 
-        $jsonResposta = [
-            'data' => $objeto['data_atendimento'],
-            'solicitacao' => $objeto['solicitacao'],
-            'atendimento' => $objeto['atendimento'],
-            'cliente' => $objeto['cliente'],
-            'registro' => $objeto['registro_cliente'],
-            'descricao' => $objeto['descricao_do_atendimento']
-        ];
-    
-    echo json_encode($jsonResposta);
+    echo json_encode($resposta);
     
 
+}elseif($json['tipo'] == 'editar'){
+    $id = $json['id'];
+    $registro = $json['registroCliente'];
+    $cliente = $json['tipoCliente'];
+    $solicitacao = $json['solicitacao'];
+    $atendimento = $json['atendimento'];
+    $descricao = $json['descricao'];
+    $dao->editar($id,$registro,$cliente,$solicitacao,$atendimento,$descricao);
 }

@@ -1,73 +1,27 @@
 <?php
-$servername = "10.150.150.30";
-$username = "sdivida_ativa";
-$password = "divida2019";
-$dbname = "historico_atendimento";
+$servido = "localhost";
+$usuario = "root";
+$senha = "";
+$bdname = "historico_atendimento";
+ 
+$conexao = mysqli_connect($servido, $usuario, $senha, $bdname);
 
-$conn = mysqli_connect($servername, $username, $password, $dbname);
+$registro = $_GET['registro'];
 
-//Receber a requisão da pesquisa 
-$requestData= $_REQUEST;
-//
-//
-$registro = $_POST['registro'];
-//Indice da coluna na tabela visualizar resultado => nome da coluna no banco de dados
-$columns = array( 
-	0 =>'descricao_do_atendimento', 
-	1 => 'id_tipo_cliente',
-	2=> 'registro_cliente',
-	3=> 'id_tipo_solicitacao',
-	4=> 'id_tipo_atendimento',
-	5=> 'data_atendimento'
-);
 
-//Obtendo registros de número total sem qualquer pesquisa
-$result_user = "SELECT data_atendimento, descricao_do_atendimento, id_tipo_cliente,registro_cliente,id_tipo_solicitacao, id_tipo_atendimento FROM historico_atendimento_cliente";
-$resultado_user =mysqli_query($conn, $result_user);
-$qnt_linhas = mysqli_num_rows($resultado_user);
 
-//Obter os dados a serem apresentados
-$result_usuarios = "SELECT h.data_atendimento, h.descricao_do_atendimento, h.registro_cliente, c.cliente, a.atendimento,
+$query = "SELECT h.id_historico_atendimento_cliente, h.data_atendimento, h.descricao_do_atendimento, h.registro_cliente, c.cliente, a.atendimento,
 s.solicitacao FROM historico_atendimento_cliente h INNER JOIN tipo_cliente c ON h.id_tipo_cliente = c.id_tipo_cliente 
 INNER JOIN tipo_atendimento a ON h.id_tipo_atendimento = a.id_tipo_atendimento INNER JOIN tipo_solicitacao s ON 
-h.id_tipo_solicitacao = s.id_tipo_solicitacao WHERE registro_cliente = '$registro' ";
+h.id_tipo_solicitacao = s.id_tipo_solicitacao WHERE registro_cliente = '$registro' AND ativo = '1' ORDER BY id_historico_atendimento_cliente DESC  ";
 
+$resultado = mysqli_query($conexao,$query);
 
-
-if( !empty($requestData['search']['value']) ) {   // se houver um parâmetro de pesquisa, $requestData['search']['value'] contém o parâmetro de pesquisa
-	$result_usuarios.=" AND ( h.data_atendimento LIKE '".$requestData['search']['value']."%' ";    
-	$result_usuarios.=" OR h.descricao_do_atendimento LIKE '".$requestData['search']['value']."%' ";
-	$result_usuarios.=" OR h.id_tipo_cliente LIKE '".$requestData['search']['value']."%' )";
+if(($resultado) AND ($resultado->num_rows != 0)){
+	while($linha_resultado = mysqli_fetch_assoc($resultado)){
+		$vetor[] = array_map('utf8_encode', $linha_resultado); 
+	}
+	echo json_encode($vetor);
+}else{
+	echo "Nenhum Resgistro Encontrado!.";
 }
-
-$resultado_usuarios=mysqli_query($conn, $result_usuarios);
-$totalFiltered = mysqli_num_rows($resultado_usuarios);
-
-
-
-// Ler e criar o array de dados
-$dados = array();
-while( $row_usuarios =mysqli_fetch_array($resultado_usuarios) ) {  
-	$data = $row_usuarios['data_atendimento'];
-	$data2 = date('d/m/Y H:i:s', strtotime($data));
-	$dado = array(); 
-	$dado[] = "<tr><td id='data'>".$data2."</td>";
-	$dado[] = "<td>".$row_usuarios["solicitacao"]."</td>";
-	$dado[] = "<td>".$row_usuarios["atendimento"]."</td>";	
-	$dado[] = "<td>".$row_usuarios["cliente"]."</td>";
-	$dado[] = "<td>".$row_usuarios["registro_cliente"]."</td>";
-	$dado[] = "<td>".$row_usuarios["descricao_do_atendimento"]."</td>";
-	$dado[] = "<td>"."<button class='btn btn-success btn-sm' id='botao-editar'>Detalhes</button><button class='btn btn-primary btn-sm' id='bntEditar'>Editar</button><button class='btn btn-danger btn-sm' id='botao-excluir'>Excluir</button>"."</td></tr>";
-	$dados[] = $dado;
-}
-
-
-//Cria o array de informações a serem retornadas para o Javascript
-$json_data = array(
-	"draw" => intval( $requestData['draw'] ),//para cada requisição é enviado um número como parâmetro
-	"recordsTotal" => intval( $qnt_linhas ),  //Quantidade de registros que há no banco de dados
-	"recordsFiltered" => intval( $totalFiltered ), //Total de registros quando houver pesquisa
-	"data" => $dados   //Array de dados completo dos dados retornados da tabela 
-);
-
-echo json_encode($json_data);  //enviar dados como formato json

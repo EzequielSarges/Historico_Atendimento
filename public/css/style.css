@@ -4,6 +4,7 @@ body{
 
 }
 
+
 div#corpo{
     background-color:#F5F5F5;
     display: flex;
@@ -11,11 +12,18 @@ div#corpo{
     height: 50px;
 
 }
+div#alert{
+    margin: 5px;
+}
+h6#mensagem{
+    color: brown;
+}
 
 img{
     height: 150px;
     width:150px;
     align-items: center;
+    
 }
 h5{
     color: #838B8B;

@@ -5,7 +5,7 @@ class Connection{
     public function conectar(){
          try{
              //$conexao = new PDO("mysql:host=10.150.150.30;dbname=divida_ativa","sdivida_ativa","divida2019");
-             $conexao = new PDO("mysql:host=10.150.150.30;dbname=historico_atendimento","sdivida_ativa","divida2019");
+             $conexao = new PDO("mysql:host=localhost;dbname=historico_atendimento","root","");
              return $conexao;
              
          }catch(PDOException $erro){

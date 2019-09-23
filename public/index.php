@@ -14,6 +14,7 @@
 <?php
 $nome = $_GET['nome'];
 $registro = $_GET['registro'];
+$profissional = $_GET['profissional'];
 ?>
 
     <title>HISTÓRICO DE ATENDIMENTO</title>
@@ -24,6 +25,7 @@ $registro = $_GET['registro'];
             <h5>HISTÓRICO DE ATENDIMENTO</h5>
         </div>
     </div>
+
 
 <div id = "caixa1">
 
@@ -55,7 +57,7 @@ $registro = $_GET['registro'];
                                         </div>
                                         <div class="col-md-4 mb-3">
                                             <label >Tipo Cliente</label>
-                                                <select name="tipoCliente" class="custom-select" required  id="tipoCliente">
+                                                <select name="tipoCliente" class="custom-select" required  id="tipoCliente" disabled="disabled">
                                                     <option value="">Selecione...</option>			
                                                     <option value="1">Profissional</option>
                                                     <option value="2">Empresa</option>
@@ -102,7 +104,13 @@ $registro = $_GET['registro'];
                 </div>
     </div>  
 </div>
-        
+
+<!--alerta de nenhum registro encontrado-->
+<div style ='display:none'id="alert" class="alert alert-danger" role="alert">
+  <h6 id ="mensagem"><strong >Ops! Nenhum registro encontrado!.</strong></h6>
+</div>
+
+<!--tabela de atendimentos-->
         <div id="item2" class="card">
         
                 <div class="card-header">
@@ -118,7 +126,6 @@ $registro = $_GET['registro'];
                                     <th>Tipo de Atendimento</th>
                                     <th>Tipo de Cliente</th>
                                     <th>CPF/CNPJ</th>
-                                    <th>Descrição</th>
                                     <th>Ação</th>
                                 
                                     
@@ -157,7 +164,7 @@ $registro = $_GET['registro'];
     <div class="modal-content">
         <div class="modal-header bg-secondary">
             <h6 style = "color:#ffffff">Detalhes do atendimento</h6> 
-            <button type="button" id="close" class="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" id="fechar" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>           
         </div>
@@ -196,6 +203,72 @@ Os primeiros dois símbolos no código de cor HTML representam a intensidade da 
   </div>
 </div>
 
+<!-- Modal EDITAR -->
+
+<div id="modalEditar" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header bg-secondary">
+            <h6 style = "color:#ffffff">Atualizar Atendimento</h6> 
+            <button type="button" id="fechar" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>           
+        </div>
+
+        <div class='modal-body'>
+            <form id="formarioAtualizar" class="was-validated ">
+                                    <div class="form-row">
+                      <div class="col-md-4 mb-3">
+                          <label >CPF/CNPJ</label>
+                          <input type="text" name ='registro' class="form-control" id="registro_Cliente" disabled="disabled" value="<?php echo $registro?>">
+                      </div>
+                      <div class="col-md-4 mb-3">
+                          <label >Tipo Cliente</label>
+                              <select name="tipoCliente" class="custom-select" required  id="tipo_Cliente" disabled="disabled">
+                                  <option value="">Selecione...</option>			
+                                  <option value="1">Profissional</option>
+                                  <option value="2">Empresa</option>
+                                  <option value="3">Não Registrado</option>
+                              </select>
+                      </div>
+                      <div class="col-md-4 mb-3">
+                          <label >Tipo de Solicitação </label>
+                                          <select name="tipoSolicitacao" class="custom-select" required  id="tipo_Solicitacao">
+                                              <option value="">Selecione...</option>			
+                                              <option value="1">Emissão de Boleto</option>
+                                              <option value="2">Parcelamento/Acordos</option>
+                                              <option value="3">Intenções</option>
+                                              <option value="4">Informações de débito</option>
+                                              <option value="5">Outros</option>
+                                          </select>
+                      </div>
+                      <div class="col-md-4 mb-3">
+                          <label >Tipo de Atendimento</label>
+                                          <select name="tipoAtendimento" class="custom-select" required  id="tipo_Atendimento" >
+                                              <option value="">Selecione...</option>			
+                                              <option value="1">Telefônico</option>
+                                              <option value="2">Presencial</option>
+                                              <option value="3">E-mail</option>
+                                          </select>
+                      </div>
+                      <div class="col-md-4 mb-3">
+                          <label >Descrição:</label>
+                          <textarea name="descricao" id="descricao_Atendimento" cols="73" rows="3" class="form-control is-invalid" required></textarea>
+                      </div>
+
+                      <div class="col-md-6 mb-3">
+                          <button type="submit" name="Atualizar" id="Atualizar" class="btn btn-primary" >Atualizar</button>
+                      </div>
+                      
+                  </div>
+
+            </form>  
+
+        </div>
+      
+    </div>
+  </div>
+</div>
 
 <!--Modal Excluir dados da tabela-->
 <div class="modal" id="btnExcluir">
@@ -210,8 +283,8 @@ Os primeiros dois símbolos no código de cor HTML representam a intensidade da 
         <h5>Tem certeza que deseja excluir?</h5>
         </div>
         <div class='modal-footer'>
-        <button type='button' class='btn btn-danger' id='excluir'>Excluir</button>
-        <button type='button' class='btn btn-success' data-dismiss='modal'>Cancelar</button>
+        <button type='submit' class='btn btn-danger' id='excluir'>Excluir</button>
+        <button type='button' class='btn btn-success' id="excluirCancelar"data-dismiss='modal'>Cancelar</button>
       </div>
       </div>
     </div>
@@ -289,7 +362,7 @@ $(function(){
                 alert("Preencha todos os campos!");
             } else {
                 $.ajax({
-                    url:"http://10.150.150.201/Historico_Atendimento/app/Controller/Controller.php",
+                    url:"http://localhost/Historico_Atendimento/app/Controller/Controller.php",
                     type: "POST",
                     data: {'dados':{
                         tipo: 'inserir',
@@ -325,16 +398,22 @@ $(function(){
 $(document).on('click', '#btnOk', function(){
     location.reload();
 });
+$(document).on('click', '#fechar', function(){
+    location.reload();
+});
 
-$(document).on('click', '#botao-editar', function(){
+$(document).on('click', '#botao-detalhes', function(){
     $("#modalDetalhes").modal('show');
 
 });
 
-$(document).on('click', '#botao-excluir', function(){
-    $("#btnExcluir").modal('show');
-});
 
+//-----------------------------------------------------------------
+
+$(document).on('click', '#excluirCancelar', function(){
+    location.reload();
+
+});
 
 </script>
 
@@ -342,61 +421,157 @@ $(document).on('click', '#botao-excluir', function(){
 
 <!--listar-->
 <script>
-$(document).ready(function() {
-    
-$.ajax({
-    type: 'POST',
-    url: 'http://10.150.150.201/Historico_Atendimento/app/Controller/Controller.php',
-    data: {'dados':{
-        tipo: 'listar',
-        registro: '<?php echo $registro?>'
-    }},
-    dataType: 'json',
-    success: function(response) {
-        //alert(response.registro)
-        var tabela = $('#corpo-tabela');
-           
-                var linha = "<tr class='historico'>"+
-                                "<td id='tdData' >"+ response.data + "</td>"+
-                                "<td id='tdSolicitacao'>"+ response.solicitacao + "</td>"+
-                                "<td id='tdAtendimento'>"+ response.atendimento + "</td>"+
-                                "<td id='tdCliente'>"+ response.cliente + "</td>"+
-                                "<td id='tdRegistro'>"+ response.registro + "</td>"+
-                                "<td id='tdDescricao'>"+ response.descricao + "</td>"+
-                                "<td>"+
-                                "<button class='btn btn-success btn-sm' id='botao-editar'>Detalhes</button>"+
-                                "<button class='btn btn-danger btn-sm' id='botao-excluir'>Excluir</button>"+
-                            "</td>"+
-                            "</tr>";
-
-                     tabela.html(linha); 
- 
-            },
-            error: function(erro){
-            alert("erro");
-         }
+$(document).ready(function(){
+    //$('#corpo-tabela').empty(); //Limpando a tabela
+    $.ajax({
+		type:'post',		//Definimos o método HTTP usado
+		dataType: 'json', //Definimos o tipo de retorno
+		url: 'http://localhost/Historico_Atendimento/app/Controller/listarController.php?registro='+'<?php echo $registro?>',//Definindo o arquivo onde serão buscados os dados
+		success: function(response){
+			for(var i=0;response.length>i;i++){
+				//Adicionando registros retornados na tabela
+            $('#corpo-tabela').append('<tr><td class="id" style="display:none">'+response[i].id_historico_atendimento_cliente+
+            '</td><td class="tdAtendimento">'+response[i].data_atendimento+
+            '</td><td class="solicitacao" >'+response[i].solicitacao+'</td><td class="atendimento">'+response[i].atendimento+
+            '</td><td class="cliente">'+response[i].cliente+'</td><td class="registro">'+response[i].registro_cliente+
+            '</td><td class="descricao"  style="display:none">'+response[i].descricao_do_atendimento+'</td><td>'+
+            '<button class="btn btn-primary btn-sm" id="botao-detalhes">Detalhes</button><button class="btn btn-warning btn-sm" id="botao-editar">Editar</button><button class="btn btn-danger btn-sm" id="botao-excluir">Excluir</button>'+
+            '</td></tr>');
+            }
+		},
+        error: function(){
+            $(".alert").css('display','block')
+        }
+	});
 });
+</script>
 
-});  
+
+<!--pega o tipo de profissional e adiciona ao Select-->
+<script>
+$(document).ready(function(){
+    var frase = "<?php echo $profissional?>",
+        localizado = null;
+
+    // loop que percorre cada uma das opções
+    // e verifica se a frase da opção confere com o
+    // valor de fase que está sendo procurado
+    $('#tipoCliente option').each(function() {
+      // se localizar a frase, define o atributo selected
+      if($(this).text() == frase) {
+        $(this).attr('selected', true);
+      }
+    });
+});
+</script>
+
+
+<!--MOSTRAR DADOS NO MODAL DETALHES-->
+<script>
+$(document).on("click", "#botao-detalhes", function(){
+       
+        var registro = $(this).parent().parent().find(".registro").text();
+        var cliente = $(this).parent().parent().find(".cliente").text()
+        var solicitacao = $(this).parent().parent().find(".solicitacao").text();
+        var descricao = $(this).parent().parent().find(".descricao").text();
+        var atendimento = $(this).parent().parent().find(".atendimento").text();
+        
+        $('#registroCliente').html(registro);
+        $('#descricaoCliente').html(descricao);
+        $('#tituloCliente').html(cliente);
+        $('#solicitacaoCliente').html(solicitacao);
+        $('#atendimentoCliente').html(atendimento);
+
+    
+        });
+</script>
+
+<!--EXCLUIR LINHA-->
+<script>
+$(document).on("click", "#botao-excluir", function(){
+
+   var idAtendimento = $(this).parent().parent().find(".id").text();
+   $("#btnExcluir").modal('show');
+    //alert(idAtendimento);
+    $('#excluir').on('click',function(){
+        $.ajax({
+            url:"http://localhost/Historico_Atendimento/app/Controller/Controller.php",
+            type: "POST",
+            data: {'dados':{
+            tipo: 'deletar',
+            id: idAtendimento}},
+            success: function(response){
+                $('#btnExcluir').modal('hide'); 
+                $('#myModal').modal('show');
+                $("#corpoTexto").text('Atendimento Excluído!')
+			
+		    },
+            error: function(erro){
+                alert('erro');
+            }
+
+	    });
+    });
+   
+});
 </script>
 
 <script>
+//Editar Atendimento -----------------------------------------------------------
 $(document).on('click', '#botao-editar', function(){
-   
-   
+    $("#modalEditar").modal('show');
+    $("#registro_Cliente").val($(this).parent().parent().find(".registro").text());
+    $("#descricao_Atendimento").val($(this).parent().parent().find(".descricao").text());
+    // frase que desejo localizar
+      var tipoProfissional = "<?php echo $profissional?>",
+        localizado = null;
 
-    var registro = $('#tdRegistro').html();
-    var tipo = $('#tdCliente').html();
-    var solicitacao = $('#tdSolicitacao').html();
-    var atendimento = $('#tdAtendimento').html();
-    var descricao = $('#tdDescricao').html();
+    // loop que percorre cada uma das opções
+    // e verifica se a frase da opção confere com o
+    // valor de fase que está sendo procurado
+    $('#tipo_Cliente option').each(function() {
+      // se localizar a frase, define o atributo selected
+      if($(this).text() == tipoProfissional) {
+        $(this).attr('selected', true);
+      }
+    });
 
-    $("#registroCliente").html(registro);
-    $("#tituloCliente").html(tipo);
-    $("#solicitacaoCliente").html(solicitacao);
-    $("#atendimentoCliente").html(atendimento);
-    $("#descricaoCliente").html(descricao);
-}); 
+    
+
+$('#Atualizar').on('click', function(){
+    var registroCliente = '<?php echo $registro?>';
+    var tipo_Cliente = $('$tipo_Cliente').val();
+    var id = $(this).parent().parent().find(".id").text();
+    var tSolicitacao = $("#tipo_Solicitacao").val()
+    var tAtendimento = $("#tipo_Atendimento").val()
+    var descricao = $("#descricao_Atendimento").val()
+    $.ajax({
+            url:"http://localhost/Historico_Atendimento/app/Controller/Controller.php",
+            type: "POST",
+            data: {'dados':{
+            tipo: 'editar',
+            id: id,
+            registroCliente: registroCliente,
+            tipoCliente: tipo_Cliente,
+            solicitacao: tSolicitacao,
+            atendimento: tAtendimento,
+            descricao: descricao}},
+            success: function(response){
+                //$('#btnExcluir').modal('hide'); 
+                $('#myModal').modal('show');
+                $("#corpoTexto").text('Atendimento Atualizado!');
+			
+		    },
+            error: function(erro){
+                alert('erro');
+            }
+
+	    });
+
+});
+    
+
+});
 </script>
 
 </body>
