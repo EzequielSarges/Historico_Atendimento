@@ -13,11 +13,12 @@ if($json['tipo'] == 'inserir'){
     $tipo_atendimento = $json['atendimento'];
     $tipo_solicitacao = $json['solicitacao'];
     $descricao = $json['descricao'];
+    $solucao = $json['solucao'];
     
     
     //$cadAtendimento = new CadastrarAtendimento($descricao, $tipo_cliente, $registro, $tipo_solicitacao, $tipo_atendimento);
 
-    $dao->cadastrar($descricao, $tipo_cliente, $registro, $tipo_solicitacao, $tipo_atendimento);
+    $dao->cadastrar($descricao, $tipo_cliente, $registro, $tipo_solicitacao, $tipo_atendimento,$solucao);
 
     echo "Atendimento Cadastrado!.";
 
@@ -37,7 +38,8 @@ if($json['tipo'] == 'inserir'){
     $solicitacao = $json['solicitacao'];
     $atendimento = $json['atendimento'];
     $descricao = $json['descricao'];
-    $resposta = $dao->editar($id,$registro,$cliente,$solicitacao,$atendimento,$descricao);
+    $solucao = $json['solucao'];
+    $resposta = $dao->editar($id,$registro,$cliente,$solicitacao,$atendimento,$descricao,$solucao);
 
     echo json_encode('Atualizado com sucesso!.');
 }

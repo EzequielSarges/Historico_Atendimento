@@ -10,7 +10,7 @@ $registro = $_GET['registro'];
 
 
 
-$query = "SELECT h.id_historico_atendimento_cliente, h.data_atendimento, h.descricao_do_atendimento, h.registro_cliente, c.cliente, a.atendimento,
+$query = "SELECT h.id_historico_atendimento_cliente, h.data_atendimento, h.descricao_do_atendimento, h.registro_cliente, h.solucao_atendimento, c.cliente, a.atendimento,
 s.solicitacao FROM historico_atendimento_cliente h INNER JOIN tipo_cliente c ON h.id_tipo_cliente = c.id_tipo_cliente 
 INNER JOIN tipo_atendimento a ON h.id_tipo_atendimento = a.id_tipo_atendimento INNER JOIN tipo_solicitacao s ON 
 h.id_tipo_solicitacao = s.id_tipo_solicitacao WHERE registro_cliente = '$registro' AND ativo = '1' ORDER BY id_historico_atendimento_cliente DESC  ";

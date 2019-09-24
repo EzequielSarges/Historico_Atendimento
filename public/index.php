@@ -13,8 +13,10 @@
     
 <?php
 $nome = $_GET['nome'];
+$rnp = $_GET['rnp'];
 $registro = $_GET['registro'];
-$profissional = $_GET['tipoCliente'];
+$prof = $_GET['tipoCliente'];
+$profissional = ucfirst($prof);
 ?>
 
     <title>HISTÓRICO DE ATENDIMENTO</title>
@@ -33,14 +35,15 @@ $profissional = $_GET['tipoCliente'];
     <div style = "width: 100%" class="card-header">
     <h5><?php echo $profissional?></h5>
     </div>
+    <!--Imagem do Cliente-->
     <div class="card-body"> 
         <div id="cabecalho" class="form-group col-md-6" >
-            <div id="foto"><img src="imagens/usu.jpg"></div>
+            <div id="foto"><img  src="http://10.150.150.2/img/F<?php echo $rnp?>.jpg"></div>
         </div>
     </div>
     <h5 style="margin-bottom: 35px;"><?php echo $nome?></h5>
 </div>
-   
+   <!--Cadastrar atendimento-->
     <div id="item1" class="card">
                 <div class="card-header">
                     <h5>NOVO ATENDIMENTO</h5>
@@ -61,7 +64,7 @@ $profissional = $_GET['tipoCliente'];
                                                     <option value="">Selecione...</option>			
                                                     <option value="1">Profissional</option>
                                                     <option value="2">Empresa</option>
-                                                    <option value="3">Não Registrado</option>
+                                                    <option value="3">Não registrado</option>
                                                 </select>
                                         </div>
                                         <div class="col-md-4 mb-3">
@@ -88,16 +91,16 @@ $profissional = $_GET['tipoCliente'];
                                             <label >Descrição:</label>
                                             <textarea name="descricao" id="descricao" cols="73" rows="3" class="form-control is-invalid" required></textarea>
                                         </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label >Solução:</label>
+                                            <textarea name="solucao" id="solucao" cols="73" rows="3" class="form-control is-invalid" required></textarea>
+                                        </div>
 
                                         <div class="col-md-6 mb-3">
                                             <button type="submit" name="btnCadastrar" id="btCadastrar" class="btn btn-success" >Cadastrar</button>
                                         </div>
                                         
                                     </div>
-
-    
-                                            
-                                    
                             </form>  
                         </div>
                         
@@ -116,19 +119,19 @@ $profissional = $_GET['tipoCliente'];
                 <div class="card-header">
                     <h5> ATENDIMENTOS ANTERIORES</h5>
                 </div>
+                <!--<input style="width: 15%; margin-left: 20px; margin-top: 15px;margin-bottom: 5px;" type="text" id="txtBusca" placeholder="Buscar atendimento"/>-->
                 <div class="card-body">
                     <div id='tabelaDiv' style="width:100%; height: 250px;">
                         <table id="tabela" class="table table-bordered table-hover " cellspacing="0" style="width:100%">
                         <thead class="thead-dark">
                                 <tr id="cabecalho-tabela">
+                                    <th></th>
                                     <th>Data do Atendimento</th>
                                     <th>Tipo de Solicitação</th>
                                     <th>Tipo de Atendimento</th>
                                     <th>Tipo de Cliente</th>
                                     <th>CPF/CNPJ</th>
                                     <th>Ação</th>
-                                
-                                    
                                 </tr>
                             </thead>
                             <tbody id="corpo-tabela">
@@ -192,23 +195,31 @@ $profissional = $_GET['tipoCliente'];
                 <h6 id="dataAtendimento"># </h6>
             </div>
         </div>
-           <h6 id ="descricao">Descrição do Atendimento:</h6>
-           <p id='descricaoCliente'>
-           Formato dos Códigos HTML:
-Cada código HTML contém o símbolo "#" e 6 letras ou números. Estes números estão no sistema numérico hexadecimal. Por exemplo, "FF" em hexadecimal representa o número 255 em Decimal.
-
-Significado dos símbolos:
-Os primeiros dois símbolos no código de cor HTML representam a intensidade da cor encarnada. 00 é o mínimo e FF o mais intenso. O terceiro e o quarto reprenstam a intensidade de verde e o quinto e o sexto representam a intensidade de azul. Portanto, combinando as intensidades de encarnado, verde e azul podemos misturar qualquer cor que o nosso coração deseje:)
-           </p>
-           <p>             
+        <hr>
+        <div id="detalhes02">
+                <div id = "titulo">
+                    <h6 id ="descricao">Descrição do Atendimento:</h6>
+                    <p id='descricaoCliente'>
+                    
+                
+                    </p>
+                </div>
+        </div>
+        <hr>
+                <div>
+                    <h6 id ="solucao">Solucao:</h6>
+                    <p id='solucaoAtendimento'>
+                
+                    </p>  
+                </div>
         </div>
 
     </div>
   </div>
 </div>
 
-<!-- Modal EDITAR -->
 
+<!-- Modal EDITAR -->
 <div id="modalEditar" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -235,7 +246,7 @@ Os primeiros dois símbolos no código de cor HTML representam a intensidade da 
                                  <option value="">Selecione...</option>			
                                  <option value="1">Profissional</option>
                                  <option value="2">Empresa</option>
-                                 <option value="3">Não Registrado</option>
+                                 <option value="3">Não registrado</option>
                              </select>
                      </div>
                      <div class="col-md-4 mb-3">
@@ -262,6 +273,10 @@ Os primeiros dois símbolos no código de cor HTML representam a intensidade da 
                          <label >Descrição:</label>
                          <textarea name="descricao" id="descricao_Atendimento" cols="73" rows="3" class="form-control is-invalid" required></textarea>
                      </div>
+                     <div class="col-md-4 mb-3">
+                         <label >Solução:</label>
+                         <textarea name="solucao" id="solucao_Atendimento" cols="73" rows="3" class="form-control is-invalid" required></textarea>
+                     </div>
 
                      <div class="col-md-6 mb-3">
                          <button type="submit" name="btnCadastrar" id="btCadastrar" class="btn btn-success" >Atualizar</button>
@@ -280,7 +295,6 @@ Os primeiros dois símbolos no código de cor HTML representam a intensidade da 
 <div class="modal" id="btnExcluir">
     <div class="modal-dialog">
       <div class="modal-content">
-        <!-- Modal Header -->
         <div class="modal-header bg-danger">
           <h5 style="color: #ffffff; font-family: 'Allerta', sans-serif; text-align: center; " id='corpoTexto' class="modal-title">Excluír Atendimento</h5>
           
@@ -353,7 +367,7 @@ Os primeiros dois símbolos no código de cor HTML representam a intensidade da 
 </script>-->
 
 
-<!--cadastrar-->
+<!--Função cadastrar-->
 <script>
 $(function(){
     $("#formario").submit(function(){
@@ -361,6 +375,7 @@ $(function(){
         var tSolicitacao = $("#tipoSolicitacao").val()
         var tAtendimento = $("#tipoAtendimento").val()
         var descricao = $("#descricao").val()
+        var solucao = $('#solucao').val()
 
         if (tCliente == "" || tSolicitacao == "" || tAtendimento == "" || descricao == "" ){
                 alert("Preencha todos os campos!");
@@ -374,7 +389,8 @@ $(function(){
                         cliente: tCliente,
                         solicitacao: tSolicitacao,
                         atendimento: tAtendimento,
-                        descricao: descricao
+                        descricao: descricao,
+                        solucao: solucao
                     }},
                     success: function(response){
                       //alert(response)
@@ -399,13 +415,15 @@ $(function(){
 </script>
 
 <script>
-//Editar Atendimento -----------------------------------------------------------
+
+//Função Editar Atendimento -----------------------------------------------------------
 $(document).on('click', '#botao-editar', function(){
     $("#modalEditar").modal('show');
 
     $("#registro_Cliente").val($(this).parent().parent().find(".registro").text());
     $("#descricao_Atendimento").val($(this).parent().parent().find(".descricao").text());
     $("#id").val( $(this).parent().parent().find(".id").text());
+    $("#solucao_Atendimento").val( $(this).parent().parent().find(".solucao").text());
 
     var tipoCliente = "<?php echo $profissional?>",
         localizado = null;
@@ -425,6 +443,7 @@ $(document).on('click', '#botao-editar', function(){
         var descricao = $("#descricao_Atendimento").val()
         var registro = $("#registro_Cliente").val()
         var id = $("#id").val()
+        var solucao = $("#solucao_Atendimento").val()
         
         
         //var resultado = tCliente +'\n'+ tSolicitacao + '\n'+ tAtendimento + '\n'+descricao+ '\n'+registro+ '\n'+id;
@@ -443,7 +462,8 @@ $(document).on('click', '#botao-editar', function(){
                         cliente: tCliente,
                         solicitacao: tSolicitacao,
                         atendimento: tAtendimento,
-                        descricao: descricao
+                        descricao: descricao,
+                        solucao: solucao
                     }},
                     success: function(response){
                       //alert(response)
@@ -493,7 +513,7 @@ $(document).on('click', '#excluirCancelar', function(){
 </script>
 
 
-<!--listar-->
+<!-- Função listar-->
 <script>
 $(document).ready(function(){
     //$('#corpo-tabela').empty(); //Limpando a tabela
@@ -504,7 +524,9 @@ $(document).ready(function(){
 		success: function(response){
 			for(var i=0;response.length>i;i++){
 				//Adicionando registros retornados na tabela
-            $('#corpo-tabela').append('<tr><td class="id" style="display:none">'+response[i].id_historico_atendimento_cliente+
+            $('#corpo-tabela').append(
+            '<tr id="corpoTabela"><td class="id" style="display:none">'+response[i].id_historico_atendimento_cliente+
+            '</td><td class="solucao"  style="display:none">'+response[i].solucao_atendimento+'</td><td>'+
             '</td><td class="tdAtendimento">'+response[i].data_atendimento+
             '</td><td class="solicitacao" >'+response[i].solicitacao+'</td><td class="atendimento">'+response[i].atendimento+
             '</td><td class="cliente">'+response[i].cliente+'</td><td class="registro">'+response[i].registro_cliente+
@@ -521,8 +543,25 @@ $(document).ready(function(){
 });
 </script>
 
+<!--Filtro Tabela-->
+<script> 
+$(document).ready(function(){
+    $("#txtBusca").on("keyup",function(){
+        var busca = $(this).val().toLowerCase();
+        $("#corpoTabela td").filter(function(){
+            if ($(this).find(".solicitacao").text().toUpperCase().indexOf(busca.toUpperCase()) < 0) {
+                        $(this).css("display", "block");
+            }else{
+                $(this).css("display", "none");
+            }
+        });
+       
+    });
+});
+</script>
 
-<!--pega o tipo de profissional e adiciona ao Select-->
+
+<!--pega o tipo de profissional passado via get e adiciona ao Select-->
 <script>
 $(document).ready(function(){
     var frase = "<?php echo $profissional?>",
@@ -551,6 +590,7 @@ $(document).on("click", "#botao-detalhes", function(){
         var descricao = $(this).parent().parent().find(".descricao").text();
         var atendimento = $(this).parent().parent().find(".atendimento").text();
         var data = $(this).parent().parent().find(".tdAtendimento").text();
+        var solucao = $(this).parent().parent().find(".solucao").text();
         
         $('#registroCliente').html(registro);
         $('#descricaoCliente').html(descricao);
@@ -558,6 +598,7 @@ $(document).on("click", "#botao-detalhes", function(){
         $('#solicitacaoCliente').html(solicitacao);
         $('#atendimentoCliente').html(atendimento);
         $('#dataAtendimento').html(data);
+        $('#solucaoAtendimento').html(solucao);
 
     
         });

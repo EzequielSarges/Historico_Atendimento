@@ -3,17 +3,18 @@ include "../Connection/Connection.php";
 
 class HistoricoDAO{
 
-public function cadastrar($descricao, $tipo_cliente, $registro, $tipo_solicitacao, $tipo_atendimento){
+public function cadastrar($descricao, $tipo_cliente, $registro, $tipo_solicitacao, $tipo_atendimento,$solucao){
 
     $conexao = Connection::conectar();
-    $query = $conexao->prepare("INSERT INTO historico_atendimento_cliente(descricao_do_atendimento, id_tipo_cliente, registro_cliente, id_tipo_solicitacao, id_tipo_atendimento, ativo)VALUES
-    (:descricao, :TipoCliente, :registro, :TipoSolicitacao, :TipoAtendimento, :ativo)");
+    $query = $conexao->prepare("INSERT INTO historico_atendimento_cliente(descricao_do_atendimento, id_tipo_cliente, registro_cliente, id_tipo_solicitacao, id_tipo_atendimento, ativo, solucao_atendimento)VALUES
+    (:descricao, :TipoCliente, :registro, :TipoSolicitacao, :TipoAtendimento, :ativo, :solucao)");
     $query->bindValue(":descricao","$descricao");
     $query->bindValue(":TipoCliente","$tipo_cliente");
     $query->bindValue(":registro","$registro");
     $query->bindValue(":TipoSolicitacao","$tipo_solicitacao");
     $query->bindValue(":TipoAtendimento","$tipo_atendimento");
     $query->bindValue(":ativo","1");
+    $query->bindValue(":solucao","$solucao");
     $query->execute();
 }
 
@@ -43,12 +44,12 @@ public function excluir($id){
     return $reposta;
 }
 
-public function editar($id,$registro,$cliente,$solicitacao,$atendimento,$descricao){
+public function editar($id,$registro,$cliente,$solicitacao,$atendimento,$descricao,$solucao){
     
     //$query = 'DELETE FROM processos WHERE ID ='.$id;
     $query = "UPDATE historico_atendimento_cliente SET registro_cliente = '$registro',
     id_tipo_cliente = '$cliente', id_tipo_solicitacao = '$solicitacao', id_tipo_atendimento = '$atendimento',
-    descricao_do_atendimento = '$descricao'  WHERE id_historico_atendimento_cliente = '$id'";
+    descricao_do_atendimento = '$descricao', solucao_atendimento = '$solucao'  WHERE id_historico_atendimento_cliente = '$id'";
     $conexao = Connection::conectar();
     $reposta = $conexao->exec($query);
     return $reposta;
