@@ -16,7 +16,7 @@
 $nome = $_GET['nome'];
 $rnp = $_GET['rnp'];
 $registro = $_GET['registro'];
-$prof = $_GET['tipoCliente'];
+$prof = $_GET['tipo_cliente'];
 $profissional = ucfirst($prof);
 ?>
 </head>
@@ -52,7 +52,7 @@ $profissional = ucfirst($prof);
 <script>
 $('#botaoLogin').on('click', function(){
     event.preventDefault();
-    var nome = $('#usuario').val();
+    var usuario = $('#usuario').val();
     var senha = $('#senha').val();
     
     $.ajax({
@@ -60,7 +60,7 @@ $('#botaoLogin').on('click', function(){
         //url: 'http://10.150.150.201/CreaDF-Divida_Ativa/src/Controllers/LoginController.php',
         url: 'http://10.150.150.201/Historico_Atendimento/app/Controller/loginController.php',
         data: {'dados':{
-            usuario: nome,
+            usuario: usuario,
             pass: senha,
             
         }},
@@ -70,7 +70,7 @@ $('#botaoLogin').on('click', function(){
             {
                 alert(response.resposta);
             }else{
-                location.href ="http://10.150.150.201/Historico_Atendimento/public/index.php?nome=<?php echo $nome?>&tipoCliente=<?php echo $profissional?>&registro=<?php echo $registro?>&rnp=<?php echo $rnp?>";
+                location.href ="http://10.150.150.201/Historico_Atendimento/public/index.php?nome=<?php echo $nome?>&tipo_cliente=<?php echo $profissional?>&registro=<?php echo $registro?>&rnp=<?php echo $rnp?>&usuario="+usuario;
             }
         },   
         error: function() {

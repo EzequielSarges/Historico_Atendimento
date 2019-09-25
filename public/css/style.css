@@ -29,6 +29,18 @@ h6#solucao{
 h6#mensagem{
     color: brown;
 }
+h6#obrigatorio{
+    margin-top: 5px;
+    margin-left: 5px;
+}
+h6#nomeUsuario{
+    margin-left: 0px;
+    color: #CED8F6;
+}
+h6#Usuario{
+    margin-left: 0px;
+    color: #CED8F6;
+}
 
 img{
     height: 150px;
@@ -61,14 +73,14 @@ h4#corpoTexto{
 }
 div#item0{
     
-    height: 380px;
+    height: 390px;
     margin-top: 15px;
     align-items: center;
 }
 
 div#item1{
     width: 60%;
-    height: 380px;
+    height: 390px;
     margin-top: 15px;
    
 }

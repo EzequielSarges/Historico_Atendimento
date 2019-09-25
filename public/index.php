@@ -9,14 +9,14 @@
     <link rel="stylesheet" href="css/jquery.mCustomScrollbar.css">
     <link href="https://fonts.googleapis.com/css?family=Allerta&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
-    
-    
+
 <?php
 $nome = $_GET['nome'];
 $rnp = $_GET['rnp'];
 $registro = $_GET['registro'];
-$prof = $_GET['tipoCliente'];
+$prof = $_GET['tipo_cliente'];
 $profissional = ucfirst($prof);
+$usuario = $_GET['usuario'];
 ?>
 
     <title>HISTÓRICO DE ATENDIMENTO</title>
@@ -71,11 +71,15 @@ $profissional = ucfirst($prof);
                                             <label >Tipo de Solicitação </label>
                                                             <select name="tipoSolicitacao" class="custom-select" required  id="tipoSolicitacao">
                                                                 <option value="">Selecione...</option>			
-                                                                <option value="1">Emissão de Boleto</option>
-                                                                <option value="2">Parcelamento/Acordos</option>
-                                                                <option value="3">Intenções</option>
-                                                                <option value="4">Informações de débito</option>
-                                                                <option value="5">Outros</option>
+                                                                <option value="1">Alega pagamento</option>
+                                                                <option value="2">CADIN</option>
+                                                                <option value="3">Emissão de boleto</option>
+                                                                <option value="4">Falecido</option>
+                                                                <option value="5">Intenções</option>
+                                                                <option value="6">Informações de débito</option>
+                                                                <option value="7">Parcelamento/Acordo</option>
+                                                                <option value="8">Pedido de interrupção</option>
+                                                                <option value="9">Processo judicial</option>
                                                             </select>
                                         </div>
                                         <div class="col-md-4 mb-3">
@@ -97,8 +101,10 @@ $profissional = ucfirst($prof);
                                         </div>
 
                                         <div class="col-md-6 mb-3">
-                                            <button type="submit" name="btnCadastrar" id="btCadastrar" class="btn btn-success" >Cadastrar</button>
+                                            <button type="submit" name="btnCadastrar" id="btCadastrar" class="btn btn-success" >Cadastrar</button></br>
+                                            <h6 id="obrigatorio">* Todos os campos são obrigatórios.</h6>
                                         </div>
+                                        
                                         
                                     </div>
                             </form>  
@@ -110,7 +116,7 @@ $profissional = ucfirst($prof);
 
 <!--alerta de nenhum registro encontrado-->
 <div style ='display:none'id="alert" class="alert alert-danger" role="alert">
-  <h6 id ="mensagem"><strong >Ops! Nenhum registro encontrado!.</strong></h6>
+  <h6 id ="mensagem"><strong >Ops! Nenhum registro encontrado!</strong></h6>
 </div>
 
 <!--tabela de atendimentos-->
@@ -173,48 +179,52 @@ $profissional = ucfirst($prof);
         </div>
         <div class='modal-body'>
 
-        <div id="detalhes">
-            <div id = "titulo">
-                <h6>CPF/CNPF do Cliente : </h6>
-                <h6 id="registroCliente"># </h6>
-            </div>
-            <div id = "titulo">
-                <h6> Tipo de Cliente : </h6>
-                <h6 id="tituloCliente"># </h6>
-            </div>
-            <div id = "titulo">
-                <h6> Solicitação : </h6>
-                <h6 id="solicitacaoCliente"># </h6>
-            </div>
-            <div id = "titulo">
-                <h6> Atendimento via: </h6>
-                <h6 id="atendimentoCliente"># </h6>
-            </div>
-            <div id = "titulo">
-                <h6> Data do Atendimento:</h6>
-                <h6 id="dataAtendimento"># </h6>
-            </div>
-        </div>
-        <hr>
-        <div id="detalhes02">
+            <div id="detalhes">
                 <div id = "titulo">
-                    <h6 id ="descricao">Descrição do Atendimento:</h6>
-                    <p id='descricaoCliente'>
-                    
-                
-                    </p>
+                    <h6>Nome: </h6>
+                    <h6 id="nomeCliente"><?php echo $nome?></h6>
                 </div>
-        </div>
-        <hr>
-                <div>
-                    <h6 id ="solucao">Solucao:</h6>
-                    <p id='solucaoAtendimento'>
                 
-                    </p>  
+                <div id = "titulo">
+                    <h6>CPF/CNPF do Cliente : </h6>
+                    <h6 id="registroCliente"># </h6>
                 </div>
+                <div id = "titulo">
+                    <h6> Tipo de Cliente : </h6>
+                    <h6 id="tituloCliente"># </h6>
+                </div>
+                <div id = "titulo">
+                    <h6> Solicitação : </h6>
+                    <h6 id="solicitacaoCliente"># </h6>
+                </div>
+                <div id = "titulo">
+                    <h6> Atendimento via: </h6>
+                    <h6 id="atendimentoCliente"># </h6>
+                </div>
+                <div id = "titulo">
+                    <h6> Data do Atendimento:</h6>
+                    <h6 id="dataAtendimento"># </h6>
+                </div>
+            </div>
+            <hr>
+            <div id="detalhes02">
+                    <div id = "titulo">
+                        <h6 id ="descricao">Descrição do Atendimento:</h6>
+                        <p id='descricaoCliente'></p>
+                    </div>
+            </div>
+            <hr>
+                    <div>
+                        <h6 id ="solucao">Solucao:</h6>
+                        <p id='solucaoAtendimento'></p>  
+                    </div>
         </div>
-
+        <div class='modal-footer bg-secondary'>
+                <h6 id="Usuario"> Usuario:</h6>
+                <h6 id="nomeUsuario"><?php echo $usuario?> </h6>
+      </div>
     </div>
+    
   </div>
 </div>
 
@@ -252,12 +262,16 @@ $profissional = ucfirst($prof);
                      <div class="col-md-4 mb-3">
                          <label >Tipo de Solicitação </label>
                                          <select name="tipoSolicitacao" class="custom-select" required  id="tipo_Solicitacao">
-                                             <option value="">Selecione...</option>			
-                                             <option value="1">Emissão de Boleto</option>
-                                             <option value="2">Parcelamento/Acordos</option>
-                                             <option value="3">Intenções</option>
-                                             <option value="4">Informações de débito</option>
-                                             <option value="5">Outros</option>
+                                         <option value="">Selecione...</option>			
+                                            <option value="1">Alega pagamento</option>
+                                            <option value="2">CADIN</option>
+                                            <option value="3">Emissão de boleto</option>
+                                            <option value="4">Falecido</option>
+                                            <option value="5">Intenções</option>
+                                            <option value="6">Informações de débito</option>
+                                            <option value="7">Parcelamento/Acordo</option>
+                                            <option value="8">Pedido de interrupção</option>
+                                            <option value="9">Processo judicial</option>
                                          </select>
                      </div>
                      <div class="col-md-4 mb-3">

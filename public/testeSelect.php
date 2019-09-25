@@ -1,24 +1,23 @@
-
-
 <?php
+$servido = "10.150.150.30";
+$usuario = "";
+$senha = "";
+$bdname = "permissoes";
+ 
+$conexao = mysqli_connect($servido, $usuario, $senha, $bdname);
 
-$registro ='10203050/pa';
+$usuario = "ezequielsarges";
 
-$pdo = new PDO('mysql:host=10.150.150.30; dbname=historico_atendimento;', 'sdivida_ativa', 'divida2019');
+$query1 = 
+"SELECT PK_ID_USUARIO FROM tb_usuarios WHERE TX_LOGIN = '$usuario'";
+$result = mysqli_query($conexao,$query1);
+echo $result."</br>";
 
-$sql = $pdo->query("SELECT h.data_atendimento, h.descricao_do_atendimento, h.registro_cliente, c.cliente, a.atendimento,
-s.solicitacao FROM historico_atendimento_cliente h INNER JOIN tipo_cliente c ON h.id_tipo_cliente = c.id_tipo_cliente 
-INNER JOIN tipo_atendimento a ON h.id_tipo_atendimento = a.id_tipo_atendimento INNER JOIN tipo_solicitacao s ON 
-h.id_tipo_solicitacao = s.id_tipo_solicitacao
- WHERE registro_cliente = '$registro'");
+/*$query = 
+"SELECT * FROM  tb_controllers c INNER JOIN tb_actions a ON c.PK_ID_CONTROLLER = a.FK_ID_CONTROLLER 
+ INNER JOIN tb_usuario_permissoes up ON up.FK_ID_ACTION = a.PK_ID_ACTION where up.FK_ID_USUARIO = '$result'
+ AND up.FK_ID_ACTION = 25";
+$resultado = mysqli_query($conexao,$query);
 
-	while ($linha = $sql->fetch(PDO::FETCH_ASSOC)) {
-		echo $linha['data_atendimento']."<br/>";
-        echo $linha['descricao_do_atendimento']."<br/>";
-        echo $linha['cliente']."<br/>";
-        echo $linha['registro_cliente']."<br/>";
-        echo $linha['atendimento']."<br/>";
-		echo $linha['solicitacao']."<br/>";
-		};
-
+echo $resultado."</br>";*/
 ?>
