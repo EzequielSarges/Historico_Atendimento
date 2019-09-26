@@ -14,6 +14,7 @@
 $nome = $_GET['nome'];
 $rnp = $_GET['rnp'];
 $registro = $_GET['registro'];
+$cpf = $_GET['cpf_cnpj'];
 $prof = $_GET['tipo_cliente'];
 $profissional = ucfirst($prof);
 $usuario = $_GET['usuario'];
@@ -55,8 +56,8 @@ $usuario = $_GET['usuario'];
                             <form id="formario" class="was-validated ">
                                     <div class="form-row">
                                         <div class="col-md-4 mb-3">
-                                            <label >CPF/CNPJ</label>
-                                            <input type="text" name ='registro' class="form-control" id="registro" disabled="disabled" value="<?php echo $registro?>">
+                                            <label >Registro</label>
+                                            <input type="text" name ='registro' class="form-control" id="registro" disabled="disabled" value="<?php echo $registro?>" >
                                         </div>
                                         <div class="col-md-4 mb-3">
                                             <label >Tipo Cliente</label>
@@ -93,11 +94,11 @@ $usuario = $_GET['usuario'];
                                         </div>
                                         <div class="col-md-4 mb-3">
                                             <label >Descrição:</label>
-                                            <textarea name="descricao" id="descricao" cols="73" rows="3" class="form-control is-invalid" required></textarea>
+                                            <textarea style="resize: none" name="descricao" id="descricao" cols="73" rows="3" class="form-control is-invalid" required></textarea>
                                         </div>
                                         <div class="col-md-4 mb-3">
                                             <label >Solução:</label>
-                                            <textarea name="solucao" id="solucao" cols="73" rows="3" class="form-control is-invalid" required></textarea>
+                                            <textarea  style="resize: none" name="solucao" id="solucao" cols="73" rows="3" class="form-control is-invalid" required></textarea>
                                         </div>
 
                                         <div class="col-md-6 mb-3">
@@ -136,7 +137,7 @@ $usuario = $_GET['usuario'];
                                     <th>Tipo de Solicitação</th>
                                     <th>Tipo de Atendimento</th>
                                     <th>Tipo de Cliente</th>
-                                    <th>CPF/CNPJ</th>
+                                    <th>Registro</th>
                                     <th>Ação</th>
                                 </tr>
                             </thead>
@@ -186,7 +187,7 @@ $usuario = $_GET['usuario'];
                 </div>
                 
                 <div id = "titulo">
-                    <h6>CPF/CNPF do Cliente : </h6>
+                    <h6>Registro: </h6>
                     <h6 id="registroCliente"># </h6>
                 </div>
                 <div id = "titulo">
@@ -208,14 +209,14 @@ $usuario = $_GET['usuario'];
             </div>
             <hr>
             <div id="detalhes02">
-                    <div id = "titulo">
+                    <div id = "titulo" style="overflow:scroll; width:100%;height: 100px;">
                         <h6 id ="descricao">Descrição do Atendimento:</h6>
                         <p id='descricaoCliente'></p>
                     </div>
             </div>
             <hr>
-                    <div>
-                        <h6 id ="solucao">Solucao:</h6>
+                    <div style="overflow:scroll; width:100%;height: 100px;">
+                        <h6 id ="solucao">Solução:</h6>
                         <p id='solucaoAtendimento'></p>  
                     </div>
         </div>
@@ -247,7 +248,7 @@ $usuario = $_GET['usuario'];
                          <input type="text" name ='id' class="form-control" id="id" disabled="disabled" >
                      </div>
                      <div class="col-md-4 mb-3">
-                         <label >CPF/CNPJ</label>
+                         <label >Registro</label>
                          <input type="text" name ='registro' class="form-control" id="registro_Cliente" disabled="disabled" value="<?php echo $registro?>">
                      </div>
                      <div class="col-md-4 mb-3">
@@ -310,14 +311,14 @@ $usuario = $_GET['usuario'];
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header bg-danger">
-          <h5 style="color: #ffffff; font-family: 'Allerta', sans-serif; text-align: center; " id='corpoTexto' class="modal-title">Excluír Atendimento</h5>
+          <h5 style="color: #ffffff; font-family: 'Allerta', sans-serif; text-align: center; " id='corpoTexto' class="modal-title">Excluir Atendimento</h5>
           
         </div>
         <div class='modal-body'>
-        <h5>Tem certeza que deseja excluír?</h5>
+        <h5>Tem certeza que deseja excluir?</h5>
         </div>
         <div class='modal-footer'>
-        <button type='submit' class='btn btn-danger' id='excluir'>Excluír</button>
+        <button type='submit' class='btn btn-danger' id='excluir'>Excluir</button>
         <button type='button' class='btn btn-success' id="excluirCancelar"data-dismiss='modal'>Cancelar</button>
       </div>
       </div>
@@ -399,7 +400,7 @@ $(function(){
                     type: "POST",
                     data: {'dados':{
                         tipo: 'inserir',
-                        registro: '<?php echo $registro?>',
+                        registro: '<?php echo $cpf?>',
                         cliente: tCliente,
                         solicitacao: tSolicitacao,
                         atendimento: tAtendimento,
@@ -455,7 +456,7 @@ $(document).on('click', '#botao-editar', function(){
         var tSolicitacao = $("#tipo_Solicitacao").val()
         var tAtendimento = $("#tipo_Atendimento").val()
         var descricao = $("#descricao_Atendimento").val()
-        var registro = $("#registro_Cliente").val()
+        var registro = '<?php echo $cpf?>'
         var id = $("#id").val()
         var solucao = $("#solucao_Atendimento").val()
         
@@ -534,7 +535,7 @@ $(document).ready(function(){
     $.ajax({
 		type:'post',		//Definimos o método HTTP usado
 		dataType: 'json', //Definimos o tipo de retorno
-		url: 'http://10.150.150.201/Historico_Atendimento/app/Controller/listarController.php?registro='+'<?php echo $registro?>',//Definindo o arquivo onde serão buscados os dados
+		url: 'http://10.150.150.201/Historico_Atendimento/app/Controller/listarController.php?registro='+'<?php echo $cpf?>',//Definindo o arquivo onde serão buscados os dados
 		success: function(response){
 			for(var i=0;response.length>i;i++){
 				//Adicionando registros retornados na tabela
@@ -543,9 +544,9 @@ $(document).ready(function(){
             '</td><td class="solucao"  style="display:none">'+response[i].solucao_atendimento+'</td><td>'+
             '</td><td class="tdAtendimento">'+response[i].data_atendimento+
             '</td><td class="solicitacao" >'+response[i].solicitacao+'</td><td class="atendimento">'+response[i].atendimento+
-            '</td><td class="cliente">'+response[i].cliente+'</td><td class="registro">'+response[i].registro_cliente+
+            '</td><td class="cliente">'+response[i].cliente+'</td><td class="registro">'+'<?php echo $registro?>'+
             '</td><td class="descricao"  style="display:none">'+response[i].descricao_do_atendimento+'</td><td>'+
-            '<button class="btn btn-primary btn-sm" id="botao-detalhes">Detalhes</button><button class="btn btn-warning btn-sm" id="botao-editar">Editar</button><button class="btn btn-danger btn-sm" id="botao-excluir">Excluír</button>'+
+            '<button class="btn btn-primary btn-sm" id="botao-detalhes">Detalhes</button><button class="btn btn-warning btn-sm" id="botao-editar">Editar</button><button class="btn btn-danger btn-sm" id="botao-excluir">Excluir</button>'+
             '</td></tr>');
             }
 		},
@@ -645,6 +646,19 @@ $(document).on("click", "#botao-excluir", function(){
 	    });
     });
    
+});
+</script>
+
+<!--Verifica se o profissional é empresa e bloquea a foto-->
+<script>
+$(document).ready(function(){
+    var proff = '<?php echo $profissional?>';
+    var reg = '<?php echo $cpf?>';
+    if(proff  == 'Empresa'){
+        $('#item0').css('display','none');
+        
+        
+    }
 });
 </script>
 

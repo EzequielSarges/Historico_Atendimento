@@ -1,6 +1,7 @@
 <?php
 include "../Connection/Connection.php";
 
+
 class HistoricoDAO{
 
 public function cadastrar($descricao, $tipo_cliente, $registro, $tipo_solicitacao, $tipo_atendimento,$solucao){

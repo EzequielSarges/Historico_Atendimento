@@ -16,6 +16,7 @@
 $nome = $_GET['nome'];
 $rnp = $_GET['rnp'];
 $registro = $_GET['registro'];
+$cpf = $_GET['cpf_cnpj'];
 $prof = $_GET['tipo_cliente'];
 $profissional = ucfirst($prof);
 ?>
@@ -70,7 +71,7 @@ $('#botaoLogin').on('click', function(){
             {
                 alert(response.resposta);
             }else{
-                location.href ="http://10.150.150.201/Historico_Atendimento/public/index.php?nome=<?php echo $nome?>&tipo_cliente=<?php echo $profissional?>&registro=<?php echo $registro?>&rnp=<?php echo $rnp?>&usuario="+usuario;
+                location.href ="http://10.150.150.201/Historico_Atendimento/public/index.php?nome=<?php echo $nome?>&tipo_cliente=<?php echo $profissional?>&registro=<?php echo $registro?>&rnp=<?php echo $rnp?>&cpf_cnpf=<?php echo $cpf?>&usuario="+usuario;
             }
         },   
         error: function() {
