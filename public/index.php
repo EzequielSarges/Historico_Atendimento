@@ -662,6 +662,29 @@ $(document).ready(function(){
 });
 </script>
 
+<!--Requisição de verificação de permissões-->
+<script>
+$(document).ready(function(){
+    $.ajax({
+            url:"http://10.150.150.201/Historico_Atendimento/app/Controller/testePerm.php?usuario="+'<?php echo $usuario?>',
+            type: "POST",
+            success: function(response){
+                if(response == "padrão"){
+                    alert('bloqueado')
+                }else{
+                    alert('desbloqueado')
+                }
+                
+                
+		    },
+            error: function(erro){
+                alert(erro);
+            }
+
+	    });
+
+});
+</script>
 
 
 </body>

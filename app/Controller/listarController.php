@@ -7,7 +7,8 @@ $bdname = "historico_atendimento";
 $conexao = mysqli_connect($servido, $usuario, $senha, $bdname);
 
 $registro = $_GET['registro'];
-
+$usu = $_GET['usuario'];
+$idSistema = 3;
 
 
 $query = "SELECT h.id_historico_atendimento_cliente, h.data_atendimento, h.descricao_do_atendimento, h.registro_cliente, h.solucao_atendimento, c.cliente, a.atendimento,
@@ -25,3 +26,4 @@ if(($resultado) AND ($resultado->num_rows != 0)){
 }else{
 	echo "Nenhum Resgistro Encontrado!.";
 }
+
