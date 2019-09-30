@@ -24,17 +24,9 @@ while($linha_result = mysqli_fetch_assoc($result)){
 
     if(($resultado) AND ($resultado->num_rows != 0)){
 
-        while($linha_resultado = mysqli_fetch_assoc($resultado)){
+        while($linha_resultado = mysqli_fetch_array($resultado)
             
-            foreach($linha_resultado as $chave => $valor){
-                 
-                if($valor != 26 && $valor !=27 ){
-                    echo 'padrão';
-                }else{
-                    echo "admin"."</br>";
-                   
-                }
-            }
+            echo $linha_resultado[0];
         }
         
         

@@ -1,3 +1,18 @@
+<?php
+session_start();
+    if(!isset($_SESSION['autenticado']) || $_SESSION['autenticado'] !='SIM'){
+        
+    $nome = $_GET['nome'];
+    $rnp = $_GET['rnp'];
+    $registro = $_GET['registro'];
+    $cpf = $_GET['cpf_cnpj'];
+    $prof = $_GET['tipo_cliente'];
+    $profissional = ucfirst($prof);
+
+        header("location:http://10.150.150.201/Historico_Atendimento/index.php?nome=".$nome."&tipo_cliente=".$profissional."&registro=".$registro."&rnp=".$rnp."&cpf_cnpj=".$cpf);  
+    }
+
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -546,15 +561,17 @@ $(document).ready(function(){
             '</td><td class="solicitacao" >'+response[i].solicitacao+'</td><td class="atendimento">'+response[i].atendimento+
             '</td><td class="cliente">'+response[i].cliente+'</td><td class="registro">'+'<?php echo $registro?>'+
             '</td><td class="descricao"  style="display:none">'+response[i].descricao_do_atendimento+'</td><td>'+
-            '<button class="btn btn-primary btn-sm" id="botao-detalhes">Detalhes</button><button class="btn btn-warning btn-sm" id="botao-editar">Editar</button><button class="btn btn-danger btn-sm" id="botao-excluir">Excluir</button>'+
+            '<button class="btn btn-primary btn-sm" id="botao-detalhes">Detalhes</button><button class="btn btn-warning btn-sm" id="botao-editar" disabled="disabled">Editar</button><button class="btn btn-danger btn-sm" id="botao-excluir" disabled="disabled">Excluir</button>'+
             '</td></tr>');
             }
+        
 		},
         error: function(){
             $(".alert").css('display','block')
         }
 	});
-
+    
+    
 });
 </script>
 
@@ -656,34 +673,32 @@ $(document).ready(function(){
     var reg = '<?php echo $cpf?>';
     if(proff  == 'Empresa'){
         $('#item0').css('display','none');
-        
-        
     }
+    
 });
 </script>
 
-<!--Requisição de verificação de permissões-->
 <script>
-$(document).ready(function(){
-    $.ajax({
-            url:"http://10.150.150.201/Historico_Atendimento/app/Controller/testePerm.php?usuario="+'<?php echo $usuario?>',
-            type: "POST",
-            success: function(response){
-                if(response == "padrão"){
-                    alert('bloqueado')
-                }else{
-                    alert('desbloqueado')
-                }
-                
-                
-		    },
-            error: function(erro){
-                alert(erro);
-            }
+window.setTimeout(verificaPermissao, 10000);
+        function verificaPermissao(){
+            $.ajax({
+                        url:"http://10.150.150.201/Historico_Atendimento/app/Controller/testePerm.php?usuario="+'<?php echo $usuario?>',
+                        type: "POST",
+                        success: function(response){  
+                            if(response == '252627'){
+                                $('#botao-excluir').attr('disabled',false);
+                                $('#botao-editar').attr('disabled',false);
+                            }else if(response == '2526'){
+                                $('#botao-editar').attr('disabled',false);
+                            }
+                            
+                        },
+                        error: function(erro){
+                            alert(erro);
+                        }
 
-	    });
-
-});
+                    });
+};
 </script>
 
 

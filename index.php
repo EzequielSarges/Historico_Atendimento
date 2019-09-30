@@ -67,11 +67,10 @@ $('#botaoLogin').on('click', function(){
         }},
         dataType: 'json',
         success: function(response) {
-            if(response.resposta != 'certo')
-            {
-                alert(response.resposta);
+            if(response != 'SIM'){
+                alert('Usuário não autenticado!');
             }else{
-                location.href ="http://10.150.150.201/Historico_Atendimento/public/index.php?nome=<?php echo $nome?>&tipo_cliente=<?php echo $profissional?>&registro=<?php echo $registro?>&rnp=<?php echo $rnp?>&cpf_cnpf=<?php echo $cpf?>&usuario="+usuario;
+                location.href ="http://10.150.150.201/Historico_Atendimento/public/index.php?nome=<?php echo $nome?>&tipo_cliente=<?php echo $profissional?>&registro=<?php echo $registro?>&rnp=<?php echo $rnp?>&cpf_cnpj=<?php echo $cpf?>&usuario="+usuario;
             }
         },   
         error: function() {

@@ -1,4 +1,5 @@
 <?php
+session_start();
 include (dirname(__FILE__) . "/../../lib/adLDAP/adLDAP.php");
 //include (dirname(__FILE__) ."/var/www/html/CreaDF-Divida_Ativa/lib/adLDAP/adLDAP.php");
 use adLDAP\adLDAP;
@@ -12,10 +13,8 @@ $adldap = new adLDAP(array('domain_controllers'=>$option,'base_dn'=>'DC=CREA-DF,
  
 $authUser = $adldap->user()->authenticate($usuario, $senha);
 if ($authUser == true) {
-  $resposta =['resposta'=>'certo'];
-  echo json_encode($resposta);
+  echo json_encode($_SESSION['autenticado'] = 'SIM');
 }
 else {
-  $resposta =['resposta'=>'Usuario e/ou Senha Inválidos'];
-  echo json_encode($resposta);
+  echo json_encode($_SESSION['autenticado'] = 'NAO');
 }
