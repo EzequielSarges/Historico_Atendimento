@@ -24,16 +24,16 @@ while($linha_result = mysqli_fetch_assoc($result)){
 
     if(($resultado) AND ($resultado->num_rows != 0)){
 
-        while($linha_resultado = mysqli_fetch_array($resultado)
+        while($linha_resultado = mysqli_fetch_array($resultado)){
             
             echo $linha_resultado[0];
-        }
+        };
         
         
     }elseif(($resultado) AND ($resultado->num_rows == 0)){
         echo "Erro ao verificar permissões";
-    }
+    };
     
-}
+};
 
 ?>

@@ -1,5 +1,7 @@
 <?php
 session_start();
+
+
     if(!isset($_SESSION['autenticado']) || $_SESSION['autenticado'] !='SIM'){
         
     $nome = $_GET['nome'];
@@ -11,7 +13,7 @@ session_start();
 
         header("location:http://10.150.150.201/Historico_Atendimento/index.php?nome=".$nome."&tipo_cliente=".$profissional."&registro=".$registro."&rnp=".$rnp."&cpf_cnpj=".$cpf);  
     }
-
+    
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -32,7 +34,7 @@ $registro = $_GET['registro'];
 $cpf = $_GET['cpf_cnpj'];
 $prof = $_GET['tipo_cliente'];
 $profissional = ucfirst($prof);
-$usuario = $_GET['usuario'];
+$usuario = $_SESSION['usuario'];
 ?>
 
     <title>HISTÓRICO DE ATENDIMENTO</title>
@@ -151,7 +153,7 @@ $usuario = $_GET['usuario'];
                                     <th>Data do Atendimento</th>
                                     <th>Tipo de Solicitação</th>
                                     <th>Tipo de Atendimento</th>
-                                    <th>Tipo de Cliente</th>
+                                    <th>Usuário</th>
                                     <th>Registro</th>
                                     <th>Ação</th>
                                 </tr>
@@ -236,8 +238,8 @@ $usuario = $_GET['usuario'];
                     </div>
         </div>
         <div class='modal-footer bg-secondary'>
-                <h6 id="Usuario"> Usuario:</h6>
-                <h6 id="nomeUsuario"><?php echo $usuario?> </h6>
+                <h6 id="Usuario"> Atendido por:</h6>
+                <h6 id="nomeUsuario"> </h6>
       </div>
     </div>
     
@@ -416,6 +418,7 @@ $(function(){
                     data: {'dados':{
                         tipo: 'inserir',
                         registro: '<?php echo $cpf?>',
+                        usuario: '<?php echo $usuario?>',
                         cliente: tCliente,
                         solicitacao: tSolicitacao,
                         atendimento: tAtendimento,
@@ -488,6 +491,7 @@ $(document).on('click', '#botao-editar', function(){
                     data: {'dados':{
                         tipo: 'editar',
                         registro: registro,
+                        usuario: '<?php echo $usuario?>',
                         id: id,
                         cliente: tCliente,
                         solicitacao: tSolicitacao,
@@ -559,7 +563,8 @@ $(document).ready(function(){
             '</td><td class="solucao"  style="display:none">'+response[i].solucao_atendimento+'</td><td>'+
             '</td><td class="tdAtendimento">'+response[i].data_atendimento+
             '</td><td class="solicitacao" >'+response[i].solicitacao+'</td><td class="atendimento">'+response[i].atendimento+
-            '</td><td class="cliente">'+response[i].cliente+'</td><td class="registro">'+'<?php echo $registro?>'+
+            '</td><td class="usuario">'+response[i].usuario+
+            '</td><td class="cliente" style="display:none">'+response[i].cliente+'</td><td class="registro">'+'<?php echo $registro?>'+
             '</td><td class="descricao"  style="display:none">'+response[i].descricao_do_atendimento+'</td><td>'+
             '<button class="btn btn-primary btn-sm" id="botao-detalhes">Detalhes</button><button class="btn btn-warning btn-sm" id="botao-editar" disabled="disabled">Editar</button><button class="btn btn-danger btn-sm" id="botao-excluir" disabled="disabled">Excluir</button>'+
             '</td></tr>');
@@ -623,6 +628,7 @@ $(document).on("click", "#botao-detalhes", function(){
         var atendimento = $(this).parent().parent().find(".atendimento").text();
         var data = $(this).parent().parent().find(".tdAtendimento").text();
         var solucao = $(this).parent().parent().find(".solucao").text();
+        var usuario = $(this).parent().parent().find(".usuario").text();
         
         $('#registroCliente').html(registro);
         $('#descricaoCliente').html(descricao);
@@ -631,6 +637,7 @@ $(document).on("click", "#botao-detalhes", function(){
         $('#atendimentoCliente').html(atendimento);
         $('#dataAtendimento').html(data);
         $('#solucaoAtendimento').html(solucao);
+        $('#nomeUsuario').html(usuario);
 
     
         });
@@ -679,7 +686,8 @@ $(document).ready(function(){
 </script>
 
 <script>
-window.setTimeout(verificaPermissao, 10000);
+$(document).ready(function(){
+window.setTimeout(verificaPermissao, 1000);
         function verificaPermissao(){
             $.ajax({
                         url:"http://10.150.150.201/Historico_Atendimento/app/Controller/testePerm.php?usuario="+'<?php echo $usuario?>',
@@ -699,6 +707,7 @@ window.setTimeout(verificaPermissao, 10000);
 
                     });
 };
+});
 </script>
 
 

@@ -4,11 +4,11 @@ include "../Connection/Connection.php";
 
 class HistoricoDAO{
 
-public function cadastrar($descricao, $tipo_cliente, $registro, $tipo_solicitacao, $tipo_atendimento,$solucao){
+public function cadastrar($descricao, $tipo_cliente, $registro, $tipo_solicitacao, $tipo_atendimento,$solucao,$usuario){
 
     $conexao = Connection::conectar();
-    $query = $conexao->prepare("INSERT INTO historico_atendimento_cliente(descricao_do_atendimento, id_tipo_cliente, registro_cliente, id_tipo_solicitacao, id_tipo_atendimento, ativo, solucao_atendimento)VALUES
-    (:descricao, :TipoCliente, :registro, :TipoSolicitacao, :TipoAtendimento, :ativo, :solucao)");
+    $query = $conexao->prepare("INSERT INTO historico_atendimento_cliente(descricao_do_atendimento, id_tipo_cliente, registro_cliente, id_tipo_solicitacao, id_tipo_atendimento, ativo, solucao_atendimento, usuario)VALUES
+    (:descricao, :TipoCliente, :registro, :TipoSolicitacao, :TipoAtendimento, :ativo, :solucao, :usuario)");
     $query->bindValue(":descricao","$descricao");
     $query->bindValue(":TipoCliente","$tipo_cliente");
     $query->bindValue(":registro","$registro");
@@ -16,15 +16,16 @@ public function cadastrar($descricao, $tipo_cliente, $registro, $tipo_solicitaca
     $query->bindValue(":TipoAtendimento","$tipo_atendimento");
     $query->bindValue(":ativo","1");
     $query->bindValue(":solucao","$solucao");
+    $query->bindValue(":usuario","$usuario");
     $query->execute();
 }
 
 public function listar($registro){
 
-    $query = "SELECT h.data_atendimento, h.descricao_do_atendimento, h.registro_cliente, c.cliente, a.atendimento,
-    s.solicitacao FROM historico_atendimento_cliente h INNER JOIN tipo_cliente c ON h.id_tipo_cliente = c.id_tipo_cliente 
+    $query = "SELECT h.id_historico_atendimento_cliente, h.data_atendimento, h.descricao_do_atendimento, h.registro_cliente, h.solucao_atendimento, c.cliente, a.atendimento,
+    s.solicitacao, h.usuario FROM historico_atendimento_cliente h INNER JOIN tipo_cliente c ON h.id_tipo_cliente = c.id_tipo_cliente 
     INNER JOIN tipo_atendimento a ON h.id_tipo_atendimento = a.id_tipo_atendimento INNER JOIN tipo_solicitacao s ON 
-    h.id_tipo_solicitacao = s.id_tipo_solicitacao WHERE registro_cliente = '$registro' ORDER BY id_historico_atendimento_cliente DESC  ";
+    h.id_tipo_solicitacao = s.id_tipo_solicitacao WHERE registro_cliente = '$registro' AND ativo = '1' ORDER BY id_historico_atendimento_cliente DESC ";
     $conexao = Connection::conectar();
     $resultado = $conexao->query($query);
     $array = $resultado->fetchAll();
@@ -45,12 +46,12 @@ public function excluir($id){
     return $reposta;
 }
 
-public function editar($id,$registro,$cliente,$solicitacao,$atendimento,$descricao,$solucao){
+public function editar($id,$registro,$cliente,$solicitacao,$atendimento,$descricao,$solucao,$usuario){
     
     //$query = 'DELETE FROM processos WHERE ID ='.$id;
     $query = "UPDATE historico_atendimento_cliente SET registro_cliente = '$registro',
     id_tipo_cliente = '$cliente', id_tipo_solicitacao = '$solicitacao', id_tipo_atendimento = '$atendimento',
-    descricao_do_atendimento = '$descricao', solucao_atendimento = '$solucao'  WHERE id_historico_atendimento_cliente = '$id'";
+    descricao_do_atendimento = '$descricao', solucao_atendimento = '$solucao', usuario= '$usuario'  WHERE id_historico_atendimento_cliente = '$id'";
     $conexao = Connection::conectar();
     $reposta = $conexao->exec($query);
     return $reposta;

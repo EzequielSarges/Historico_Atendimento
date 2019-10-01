@@ -13,6 +13,7 @@ $adldap = new adLDAP(array('domain_controllers'=>$option,'base_dn'=>'DC=CREA-DF,
  
 $authUser = $adldap->user()->authenticate($usuario, $senha);
 if ($authUser == true) {
+  $_SESSION['usuario'] = $usuario;
   echo json_encode($_SESSION['autenticado'] = 'SIM');
 }
 else {
