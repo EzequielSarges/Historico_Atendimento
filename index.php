@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet"  href="style.css">
+    <link rel="stylesheet"  href="public/css/login_style.css">
     <link href="https://fonts.googleapis.com/css?family=Concert+One&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Baloo+Bhai" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Baloo+Bhai|Noto+Sans+TC" rel="stylesheet">
@@ -20,10 +20,21 @@ $cpf = $_GET['cpf_cnpj'];
 $prof = $_GET['tipo_cliente'];
 $profissional = ucfirst($prof);
 ?>
+
+<style>
+body{
+    width: 100%;
+    height: 100%;
+    background-image: url('public/imagens/pontee.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: scroll;  
+}
+</style>
 </head>
 <body>
 <div id="corpo-imagem">
-        <img src="CREA-DF2.PNG"/>
+        <img src="public/imagens/CREA-DF2.PNG"/>
     </div>
 <div id = "corpo-login" class="container-fluid">
     <h1>LOGIN</H1>

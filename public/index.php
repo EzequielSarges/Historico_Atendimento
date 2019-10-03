@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-
+    //verifica se não possui sessão, caso não haja redireciona para pagina de login.
     if(!isset($_SESSION['autenticado']) || $_SESSION['autenticado'] !='SIM'){
         
     $nome = $_GET['nome'];
@@ -13,7 +13,14 @@ session_start();
 
         header("location:http://10.150.150.201/Historico_Atendimento/index.php?nome=".$nome."&tipo_cliente=".$profissional."&registro=".$registro."&rnp=".$rnp."&cpf_cnpj=".$cpf);  
     }
-    
+
+$conexao = new PDO("mysql:host=10.150.150.30;dbname=historico_atendimento;charset=utf8","sdivida_ativa","divida2019");
+$query = "SELECT * FROM tipo_solicitacao WHERE situacao = '1'";
+$resultado = $conexao->query($query);
+
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -28,6 +35,7 @@ session_start();
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 
 <?php
+//pega os dados via get
 $nome = $_GET['nome'];
 $rnp = $_GET['rnp'];
 $registro = $_GET['registro'];
@@ -64,7 +72,7 @@ $usuario = $_SESSION['usuario'];
    <!--Cadastrar atendimento-->
     <div id="item1" class="card">
                 <div class="card-header">
-                    <h5>NOVO ATENDIMENTO</h5>
+                    <h5 id ="novoAtendimento">NOVO ATENDIMENTO</h5>
                 </div>
                 
                 <div class="card-body">    
@@ -73,8 +81,8 @@ $usuario = $_SESSION['usuario'];
                             <form id="formario" class="was-validated ">
                                     <div class="form-row">
                                         <div class="col-md-4 mb-3">
-                                            <label >Registro</label>
-                                            <input type="text" name ='registro' class="form-control" id="registro" disabled="disabled" value="<?php echo $registro?>" >
+                                            <label id ="rCliente">Registro</label>
+                                            <input type="text" name ='registro' class="form-control" id="registro" disabled="disabled" value="" >
                                         </div>
                                         <div class="col-md-4 mb-3">
                                             <label >Tipo Cliente</label>
@@ -89,15 +97,9 @@ $usuario = $_SESSION['usuario'];
                                             <label >Tipo de Solicitação </label>
                                                             <select name="tipoSolicitacao" class="custom-select" required  id="tipoSolicitacao">
                                                                 <option value="">Selecione...</option>			
-                                                                <option value="1">Alega pagamento</option>
-                                                                <option value="2">CADIN</option>
-                                                                <option value="3">Emissão de boleto</option>
-                                                                <option value="4">Falecido</option>
-                                                                <option value="5">Intenções</option>
-                                                                <option value="6">Informações de débito</option>
-                                                                <option value="7">Parcelamento/Acordo</option>
-                                                                <option value="8">Pedido de interrupção</option>
-                                                                <option value="9">Processo judicial</option>
+                                                                <?php while($linhas = $resultado->fetch(PDO::FETCH_OBJ)) { ?>
+                                                                    <option value="<?php echo $linhas->id_tipo_solicitacao ?>"><?php echo $linhas->solicitacao ?></option>
+                                                                <?php } ?>
                                                             </select>
                                         </div>
                                         <div class="col-md-4 mb-3">
@@ -134,7 +136,7 @@ $usuario = $_SESSION['usuario'];
 
 <!--alerta de nenhum registro encontrado-->
 <div style ='display:none'id="alert" class="alert alert-danger" role="alert">
-  <h6 id ="mensagem"><strong >Ops! Nenhum registro encontrado!</strong></h6>
+  <h6 id ="mensagem"><strong >Nenhum histórico de atendimento encontrado!</strong></h6>
 </div>
 
 <!--tabela de atendimentos-->
@@ -151,10 +153,10 @@ $usuario = $_SESSION['usuario'];
                                 <tr id="cabecalho-tabela">
                                     <th></th>
                                     <th>Data do Atendimento</th>
-                                    <th>Tipo de Solicitação</th>
-                                    <th>Tipo de Atendimento</th>
+                                    <th>Tipo Solicitação</th>
+                                    <th>Tipo Atendimento</th>
                                     <th>Usuário</th>
-                                    <th>Registro</th>
+                                    <th>Descrição</th>
                                     <th>Ação</th>
                                 </tr>
                             </thead>
@@ -342,6 +344,8 @@ $usuario = $_SESSION['usuario'];
     </div>
   </div>
 
+  <!--Descrição mini detalhes-->
+    
 
 <script src="js/jquery-3.4.1.min.js"></script>
 <script src="js/scroll.js"></script>
@@ -404,7 +408,7 @@ $usuario = $_SESSION['usuario'];
 $(function(){
     $("#formario").submit(function(){
         var tCliente = $("#tipoCliente").val()
-        var tSolicitacao = $("#tipoSolicitacao").val()
+        var tSolicitacao = $("#tipoSolicitacao option:selected").val()
         var tAtendimento = $("#tipoAtendimento").val()
         var descricao = $("#descricao").val()
         var solucao = $('#solucao').val()
@@ -447,9 +451,9 @@ $(function(){
 });
 </script>
 
+<!--Função Editar Atendimento ----------------------------------------------------------->
 <script>
 
-//Função Editar Atendimento -----------------------------------------------------------
 $(document).on('click', '#botao-editar', function(){
     $("#modalEditar").modal('show');
 
@@ -523,60 +527,93 @@ $(document).on('click', '#botao-editar', function(){
    
 </script>
 
+
+<!--ações de clique em botões-->
+
 <script>
 $(document).on('click', '#btnOk', function(){
     location.reload();
 });
-$(document).on('click', '#fechar', function(){
-    location.reload();
-});
 
+//abrir modal Detalhes
 $(document).on('click', '#botao-detalhes', function(){
     $("#modalDetalhes").modal('show');
 
 });
-
-
-//-----------------------------------------------------------------
-
-$(document).on('click', '#excluirCancelar', function(){
-    location.reload();
-
-});
-
 </script>
 
 
 <!-- Função listar-->
 <script>
 $(document).ready(function(){
-    //$('#corpo-tabela').empty(); //Limpando a tabela
+    //Verificação de permissões
+    var permissao;
     $.ajax({
-		type:'post',		//Definimos o método HTTP usado
-		dataType: 'json', //Definimos o tipo de retorno
-		url: 'http://10.150.150.201/Historico_Atendimento/app/Controller/listarController.php?registro='+'<?php echo $cpf?>',//Definindo o arquivo onde serão buscados os dados
-		success: function(response){
-			for(var i=0;response.length>i;i++){
-				//Adicionando registros retornados na tabela
-            $('#corpo-tabela').append(
-            '<tr id="corpoTabela"><td class="id" style="display:none">'+response[i].id_historico_atendimento_cliente+
-            '</td><td class="solucao"  style="display:none">'+response[i].solucao_atendimento+'</td><td>'+
-            '</td><td class="tdAtendimento">'+response[i].data_atendimento+
-            '</td><td class="solicitacao" >'+response[i].solicitacao+'</td><td class="atendimento">'+response[i].atendimento+
-            '</td><td class="usuario">'+response[i].usuario+
-            '</td><td class="cliente" style="display:none">'+response[i].cliente+'</td><td class="registro">'+'<?php echo $registro?>'+
-            '</td><td class="descricao"  style="display:none">'+response[i].descricao_do_atendimento+'</td><td>'+
-            '<button class="btn btn-primary btn-sm" id="botao-detalhes">Detalhes</button><button class="btn btn-warning btn-sm" id="botao-editar" disabled="disabled">Editar</button><button class="btn btn-danger btn-sm" id="botao-excluir" disabled="disabled">Excluir</button>'+
-            '</td></tr>');
-            }
-        
-		},
-        error: function(){
-            $(".alert").css('display','block')
+        url:"http://10.150.150.201/Historico_Atendimento/app/Controller/permissoesController.php?usuario="+'<?php echo $usuario?>',
+        type: "POST",
+        success: function(response){  
+             permissao = response
+            
+        },
+        error: function(erro){
+            alert(erro);
         }
-	});
+
+    });
     
-    
+    window.setTimeout(listarnatabela, 1000);
+    function listarnatabela(){
+            $.ajax({
+            type:'post',		//Definimos o método HTTP usado
+            dataType: 'json', //Definimos o tipo de retorno
+            url: 'http://10.150.150.201/Historico_Atendimento/app/Controller/listarController.php?registro='+'<?php echo $cpf?>',//Definindo o arquivo onde serão buscados os dados
+            success: function(response){
+                //alert(permissao)
+                //verifica as permissões
+                
+                for(var i=0;response.length>i;i++){
+                    if(permissao == '252627'){
+                        $('#corpo-tabela').append(//Adicionando registros retornados na tabela
+                        '<tr id="corpoTabela"><td class="id" style="display:none">'+response[i].id_historico_atendimento_cliente+
+                        '</td><td class="solucao"  style="display:none">'+response[i].solucao_atendimento+'</td><td>'+
+                        '</td><td class="tdAtendimento">'+response[i].data_atendimento+
+                        '</td><td class="solicitacao" >'+response[i].solicitacao+'</td><td class="atendimento">'+response[i].atendimento+
+                        '</td><td class="usuario">'+response[i].usuario+
+                        '</td><td class="cliente" style="display:none">'+response[i].cliente+'</td><td class="registro" style="display:none">'+'<?php echo $registro?>'+
+                        '</td><td class="descricao" onmouseover="acao()">'+'<div id="miniDetalhes" style="display:none;" class="alert alert-success" role="alert"></div>'+response[i].descricao_do_atendimento+'</td><td id ="botoes">'+
+                        '<button style="margin-left:5px;" class="btn btn-primary btn-sm" id="botao-detalhes">Detalhes</button><button style="margin-left:5px;" class="btn btn-warning btn-sm" id="botao-editar">Editar</button><button style="margin-left:5px;" class="btn btn-danger btn-sm" id="botao-excluir">Excluir</button>'+'</td></tr>');
+                    }else if(permissao == '25'){
+                        $('#corpo-tabela').append(//Adicionando registros retornados na tabela
+                        '<tr id="corpoTabela"><td class="id" style="display:none">'+response[i].id_historico_atendimento_cliente+
+                        '</td><td class="solucao"  style="display:none">'+response[i].solucao_atendimento+'</td><td>'+
+                        '</td><td class="tdAtendimento">'+response[i].data_atendimento+
+                        '</td><td class="solicitacao" >'+response[i].solicitacao+'</td><td class="atendimento">'+response[i].atendimento+
+                        '</td><td class="usuario">'+response[i].usuario+
+                        '</td><td class="cliente" style="display:none">'+response[i].cliente+'</td><td class="registro" style="display:none">'+'<?php echo $registro?>'+
+                        '</td><td class="descricao" onmouseover="acao()" >'+response[i].descricao_do_atendimento+'</td><td id ="botoes">'+
+                        '<button style="margin-left:5px;" class="btn btn-primary btn-sm" id="botao-detalhes">Detalhes</button><button style="margin-left:5px;" class="btn btn-warning btn-sm" id="botao-editar" disabled="disabled" >Editar</button><button style="margin-left:5px;" class="btn btn-danger btn-sm" id="botao-excluir" disabled="disabled">Excluir</button>'+'</td></tr>');
+                    }else{
+                        $('#corpo-tabela').append(//Adicionando registros retornados na tabela
+                        '<tr id="corpoTabela"><td class="id" style="display:none">'+response[i].id_historico_atendimento_cliente+
+                        '</td><td class="solucao"  style="display:none">'+response[i].solucao_atendimento+'</td><td>'+
+                        '</td><td class="tdAtendimento">'+response[i].data_atendimento+
+                        '</td><td class="solicitacao" >'+response[i].solicitacao+'</td><td class="atendimento">'+response[i].atendimento+
+                        '</td><td class="usuario">'+response[i].usuario+
+                        '</td><td class="cliente" style="display:none">'+response[i].cliente+'</td><td class="registro" style="display:none">'+'<?php echo $registro?>'+
+                        '</td><td class="descricao" onmouseover="acao()" >'+response[i].descricao_do_atendimento+'</td><td id ="botoes">'+
+                        '<button style="margin-left:5px;" class="btn btn-primary btn-sm" id="botao-detalhes">Detalhes</button><button style="margin-left:5px;" class="btn btn-warning btn-sm" id="botao-editar" disabled="disabled" >Editar</button><button style="margin-left:5px;" class="btn btn-danger btn-sm" id="botao-excluir" disabled="disabled">Excluir</button>'+'</td></tr>');
+                    }
+                    
+                    
+                }
+            
+            },
+            error: function(){
+                $(".alert").css('display','block')
+            }
+            });
+    }
+      
 });
 </script>
 
@@ -601,18 +638,33 @@ $(document).ready(function(){
 <!--pega o tipo de profissional passado via get e adiciona ao Select-->
 <script>
 $(document).ready(function(){
-    var frase = "<?php echo $profissional?>",
+    var frase = "<?php echo $profissional?>";
+    var Registro = '<?php echo $registro?>';
+    var Cpf = '<?php echo $cpf?>';
+    if(frase == 'Nao_registrado'){
+        $('#registro').val(Cpf);
+        frase = 'Não registrado';
         localizado = null;
 
-    // loop que percorre cada uma das opções
-    // e verifica se a frase da opção confere com o
-    // valor de fase que está sendo procurado
-    $('#tipoCliente option').each(function() {
-      // se localizar a frase, define o atributo selected
-      if($(this).text() == frase) {
-        $(this).attr('selected', true);
-      }
-    });
+        // loop que percorre cada uma das opções
+        // e verifica se a frase da opção confere com o
+        // valor de fase que está sendo procurado
+        $('#tipoCliente option').each(function() {
+        // se localizar a frase, define o atributo selected
+        if($(this).text() == frase) {
+            $(this).attr('selected', true);
+        }
+        });
+    }else{
+        $('#registro').val(Registro);
+        $('#tipoCliente option').each(function() {
+        // se localizar a frase, define o atributo selected
+        if($(this).text() == frase) {
+            $(this).attr('selected', true);
+        }
+        });
+    }
+        
 });
 </script>
 
@@ -673,41 +725,30 @@ $(document).on("click", "#botao-excluir", function(){
 });
 </script>
 
-<!--Verifica se o profissional é empresa e bloquea a foto-->
+<!--Verifica se o profissional é empresa e não registrado, bloquea a foto-->
 <script>
 $(document).ready(function(){
     var proff = '<?php echo $profissional?>';
     var reg = '<?php echo $cpf?>';
+    var nome = '<?php echo $nome?>';
     if(proff  == 'Empresa'){
         $('#item0').css('display','none');
+    }else if(proff == 'Nao_registrado'){
+        $('#item0').css('display','none');
+        $("#novoAtendimento").html(nome)
+        $("#rCliente").html('CPF/CNPJ')
     }
     
 });
 </script>
 
 <script>
-$(document).ready(function(){
-window.setTimeout(verificaPermissao, 1000);
-        function verificaPermissao(){
-            $.ajax({
-                        url:"http://10.150.150.201/Historico_Atendimento/app/Controller/testePerm.php?usuario="+'<?php echo $usuario?>',
-                        type: "POST",
-                        success: function(response){  
-                            if(response == '252627'){
-                                $('#botao-excluir').attr('disabled',false);
-                                $('#botao-editar').attr('disabled',false);
-                            }else if(response == '2526'){
-                                $('#botao-editar').attr('disabled',false);
-                            }
-                            
-                        },
-                        error: function(erro){
-                            alert(erro);
-                        }
+function acao(){
+    var descricao = $(this).parent().parent().find(".descricao").text();
+    
+    //alert('detalhes')
 
-                    });
-};
-});
+}
 </script>
 
 

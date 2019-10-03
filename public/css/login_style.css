@@ -2,14 +2,7 @@
     margin: 0%;
     padding: 0px;
 }
-body{
-    width: 100%;
-    height: 100%;
-    background-image: url('pontee.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-attachment: scroll;  
-}
+
 h1{
     color:white;
     border-bottom-color: aliceblue;
